@@ -5,6 +5,8 @@
  * @format
  * @flow strict-local
  */
+import 'react-native-gesture-handler';
+// Note: If you skip this step, your app may crash in production even if it works fine in development.
 
 import React, {useEffect} from 'react';
 import {
