@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Button } from 'react-native';
 
 // global
-import Routes from './../../global/routes';
+import Routes from 'global/routes';
 
 function Login({ navigation }) {
   return (

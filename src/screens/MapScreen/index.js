@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Text, View, Alert, Button } from 'react-native';
 
 // global
-import Routes from './../../global/routes';
+import Routes from 'global/routes';
 
 function MapScreen({ route, navigation }) {
   const { userId } = route.params;
