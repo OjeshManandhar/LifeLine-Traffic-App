@@ -5,15 +5,17 @@ import { Text, View, Button } from 'react-native';
 import Routes from './../../global/routes';
 
 function Login({ navigation }) {
-  console.log('Login');
-
   return (
     <View>
       <Text>Login</Text>
 
       <Button
         title='MapScreen'
-        onPress={() => navigation.navigate(Routes.map)}
+        onPress={() =>
+          navigation.navigate(Routes.map, {
+            userId: 1234567890
+          })
+        }
       />
     </View>
   );
