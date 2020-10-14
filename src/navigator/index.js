@@ -5,11 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // screens
-import Login from './../screens/Login';
-import MapScreen from './../screens/MapScreen';
+import Login from 'screens/Login';
+import MapScreen from 'screens/MapScreen';
 
 // global
-import Routes from './../global/routes';
+import Routes from 'global/routes';
 
 const Stack = createStackNavigator();
 

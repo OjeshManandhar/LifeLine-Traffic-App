@@ -15,7 +15,7 @@ import { StatusBar } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 // navigator
-import Navigator from './navigator';
+import Navigator from 'navigator';
 
 function App() {
   // Hide Splash screen
