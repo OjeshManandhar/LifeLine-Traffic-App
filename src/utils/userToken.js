@@ -1,5 +1,5 @@
-// Expo
-import * as SecureStore from 'expo-secure-store';
+// Packages
+import AsyncStorage from '@react-native-community/async-storage';
 
 // env
 import { USER_TOKEN_KEY } from '@env';
@@ -8,12 +8,12 @@ class UserToken {
   #userToken = null;
 
   async init() {
-    this.#userToken = await SecureStore.getItemAsync(USER_TOKEN_KEY);
+    this.#userToken = await AsyncStorage.getItem(USER_TOKEN_KEY);
   }
 
   async set(token) {
     if (typeof token === 'string') {
-      await SecureStore.setItemAsync(USER_TOKEN_KEY, token);
+      await AsyncStorage.setItem(USER_TOKEN_KEY, token);
       this.#userToken = token;
     } else {
       console.error('token must be string');
@@ -25,7 +25,7 @@ class UserToken {
   }
 
   async delete() {
-    await SecureStore.deleteItemAsync(USER_TOKEN_KEY);
+    await AsyncStorage.removeItem(USER_TOKEN_KEY);
     this.#userToken = null;
   }
 }
