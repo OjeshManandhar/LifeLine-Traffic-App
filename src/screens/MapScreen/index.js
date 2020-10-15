@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { Text, View, Alert, Button } from 'react-native';
 
+// components
+import Map from 'components/Map';
+
 // global
 import Routes from 'global/routes';
 
@@ -37,6 +40,8 @@ function MapScreen({ route, navigation }) {
   return (
     <View>
       <Text>MapScreen</Text>
+
+      <Map />
 
       <Button
         title='Log Out'
