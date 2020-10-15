@@ -13,6 +13,7 @@ import { StatusBar } from 'react-native';
 
 // packages
 import SplashScreen from 'react-native-splash-screen';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 // navigator
 import Navigator from 'navigator';
@@ -23,6 +24,23 @@ import { checkToken } from 'dummy_api';
 // utils
 import UserToken from 'utils/userToken';
 import UserLocation from 'utils/userLocation';
+
+// global
+import Fonts from 'global/fonts';
+import Colors from 'global/colors';
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: Colors.primary,
+    accent: Colors.accent
+  },
+  fonts: {
+    ...DefaultTheme.fonts,
+    regular: { fontFamily: Fonts.regular }
+  }
+};
 
 // UserLocation.init();
 
@@ -52,11 +70,11 @@ function App() {
   if (!isReady) return <></>;
 
   return (
-    <React.Fragment>
+    <PaperProvider theme={theme}>
       <StatusBar barStyle='dark-content' />
 
       <Navigator />
-    </React.Fragment>
+    </PaperProvider>
   );
 }
 
