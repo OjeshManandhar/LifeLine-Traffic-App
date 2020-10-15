@@ -7,5 +7,10 @@ Traffic app (LifeLine Traffic App) for RATS (major project). Most of the codes a
 ## Notes
 
 - **Absolute Path**
+
   - Install **[babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)**
   - Update _[babel.config.js](babel.config.js)_ according to [this doc](https://github.com/tleunen/babel-plugin-module-resolver/blob/master/DOCS.md#usage-with-react-native)
+
+- **Environment Variable**
+
+  Use _[react-native-dotenv](https://www.npmjs.com/package/react-native-dotenv)_
