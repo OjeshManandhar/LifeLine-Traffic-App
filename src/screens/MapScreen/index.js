@@ -5,7 +5,10 @@ import { Text, View, Alert, Button } from 'react-native';
 import Routes from 'global/routes';
 
 function MapScreen({ route, navigation }) {
-  const { userId } = route.params;
+  /**
+   * Use route.params to get passed props
+   * const { userId } = route.params;
+   */
 
   // Logout alert
   useEffect(() => {
@@ -34,7 +37,6 @@ function MapScreen({ route, navigation }) {
   return (
     <View>
       <Text>MapScreen</Text>
-      <Text>UserId: {userId}</Text>
 
       <Button
         title='Log Out'
