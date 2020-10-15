@@ -67,13 +67,11 @@ function App() {
     })();
   }, [setIsReady]);
 
-  if (!isReady) return <></>;
-
   return (
     <PaperProvider theme={theme}>
       <StatusBar barStyle='dark-content' />
 
-      <Navigator />
+      {isReady && <Navigator />}
     </PaperProvider>
   );
 }
