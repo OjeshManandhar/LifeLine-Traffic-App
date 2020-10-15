@@ -149,9 +149,11 @@ function Login({ navigation }) {
     };
   }, []);
 
-  if (UserToken.get()) {
-    navigation.navigate(Routes.map);
-  }
+  useEffect(() => {
+    if (UserToken.get()) {
+      navigation.navigate(Routes.map);
+    }
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
