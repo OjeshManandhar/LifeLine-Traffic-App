@@ -52,7 +52,7 @@ function App() {
     (async function () {
       await UserToken.init();
 
-      const userToken = await UserToken.get();
+      const userToken = UserToken.get();
 
       if (userToken) {
         const { valid } = await checkToken(userToken);
