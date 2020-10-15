@@ -6,7 +6,7 @@ import { BlackColor, WorkSansRegular } from 'global/styles';
 
 function Text({ style, children, ...props }) {
   return (
-    <T style={[BlackColor, style, WorkSansRegular]} {...props}>
+    <T style={[WorkSansRegular, BlackColor, style]} {...props}>
       {children}
     </T>
   );

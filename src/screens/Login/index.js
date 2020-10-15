@@ -1,5 +1,8 @@
 import React from 'react';
-import { Text, View, Button } from 'react-native';
+import { View, Button } from 'react-native';
+
+// components
+import Text from 'components/Text';
 
 // global
 import Fonts from 'global/fonts';
@@ -11,7 +14,7 @@ import { USER_TOKEN_KEY } from '@env';
 function Login({ navigation }) {
   return (
     <View>
-      <Text style={{ fontFamily: Fonts.regular }}>Login</Text>
+      <Text>Login</Text>
 
       <Text style={{ fontFamily: Fonts.italic }}>
         User token: {USER_TOKEN_KEY}
