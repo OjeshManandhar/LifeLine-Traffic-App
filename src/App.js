@@ -29,25 +29,19 @@ import UserLocation from 'utils/userLocation';
 function App() {
   const [isReady, setIsReady] = useState(false);
 
-  async function loadResources() {
-    await UserToken.init();
-
-    const userToken = await UserToken.get();
-
-    console.log('userToken:', userToken);
-
-    if (userToken) {
-      const { valid } = await checkToken(userToken);
-      if (!valid) {
-        await UserToken.delete();
-      }
-    }
-  }
-
-  // Prevent Auto hide of Splash Screen
+  // Check userToken
   useEffect(() => {
     (async function () {
-      await loadResources();
+      await UserToken.init();
+
+      const userToken = await UserToken.get();
+
+      if (userToken) {
+        const { valid } = await checkToken(userToken);
+        if (!valid) {
+          await UserToken.delete();
+        }
+      }
 
       setIsReady(true);
 
@@ -55,7 +49,7 @@ function App() {
     })();
   }, [setIsReady]);
 
-  // if (!isReady) return <></>;
+  if (!isReady) return <></>;
 
   return (
     <React.Fragment>
