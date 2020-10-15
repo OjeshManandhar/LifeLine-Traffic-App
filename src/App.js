@@ -17,6 +17,11 @@ import SplashScreen from 'react-native-splash-screen';
 // navigator
 import Navigator from 'navigator';
 
+// utils
+import UserLocation from 'utils/userLocation';
+
+// UserLocation.init();
+
 function App() {
   // Hide Splash screen
   useEffect(SplashScreen.hide, []);
