@@ -88,5 +88,18 @@ export default StyleSheet.create({
   },
   topText: {
     fontSize: 18
+  },
+  addIconContainer: {
+    position: 'absolute',
+    right: 10,
+    bottom: 10,
+    zIndex: MapViewIndex.bottomInfoBox,
+
+    width: 55,
+    height: 55
+  },
+  addIconImage: {
+    width: '100%',
+    height: '100%'
   }
 });
