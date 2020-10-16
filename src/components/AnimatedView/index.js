@@ -28,7 +28,7 @@ AnimatedView.propTypes = {
   onAppeared: PropTypes.func,
   in: PropTypes.bool.isRequired,
   timeout: PropTypes.number.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
   viewStyles: PropTypes.object.isRequired,
   animationStyles: PropTypes.object.isRequired
 };

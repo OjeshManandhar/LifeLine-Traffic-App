@@ -4,6 +4,8 @@ import { StyleSheet } from 'react-native';
 import Colors from 'global/colors';
 import { MapViewIndex } from 'global/zIndex';
 
+export const topContainerHeight = 50;
+
 export default StyleSheet.create({
   container: {
     position: 'relative',
@@ -44,12 +46,11 @@ export default StyleSheet.create({
 
     borderRadius: 50
   },
-  topContainer: {
+  topAnimatedContainer: {
     position: 'absolute',
-    top: 5,
     left: 10,
     right: 10,
-    height: 50,
+    height: topContainerHeight,
     zIndex: MapViewIndex.topContainer,
 
     overflow: 'hidden',
@@ -74,11 +75,15 @@ export default StyleSheet.create({
      */
     elevation: 3
   },
-  backIcon: {
+  backIconContainer: {
     alignSelf: 'center',
     width: 20,
     height: 20,
     marginRight: 20
+  },
+  backIcon: {
+    width: '100%',
+    height: '100%'
   },
   topTextContainer: {
     flex: 1,
