@@ -43,7 +43,11 @@ function Map() {
   }, []);
 
   return (
-    <MapboxGL.MapView style={styles.container}>
+    <MapboxGL.MapView
+      style={styles.container}
+      styleURL={MapboxGL.StyleURL.Outdoors}
+      compassViewMargins={{ x: 10, y: 90 }}
+    >
       <MapboxGL.UserLocation visible animated showsUserHeadingIndicator />
       <MapboxGL.Camera
         animationMode={'easeTo'}
