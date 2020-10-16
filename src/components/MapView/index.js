@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Image, Pressable } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Image, Pressable, BackHandler } from 'react-native';
 
 // components
 import Map from 'components/Map';
@@ -19,11 +19,50 @@ import { EMapViewStatus } from 'global/enum';
 import styles, { topContainerHeight } from './styles';
 
 function MapView({ toAccount, setBackHandler }) {
+  const [isPicking, setIsPicking] = useState(false);
+  const [pickedCoordinate, setPickedCoordintate] = useState(null);
+
   const [mapViewStatus, setMapViewStatus] = useState(EMapViewStatus.clear);
+
+  function clearPickedCoordinate() {
+    setIsPicking(false);
+    setPickedCoordintate(null);
+  }
+
+  // Back handler
+  const handleBackButton = useCallback(() => {
+    switch (mapViewStatus) {
+      case EMapViewStatus.clear:
+        BackHandler.exitApp();
+        break;
+      case EMapViewStatus.picking:
+        setMapViewStatus(EMapViewStatus.clear);
+        clearPickedCoordinate();
+        break;
+      case EMapViewStatus.addingObstruction:
+        setMapViewStatus(EMapViewStatus.clear);
+        break;
+      case EMapViewStatus.addingObstruction:
+        setMapViewStatus(EMapViewStatus.clear);
+        break;
+      case EMapViewStatus.routeInfo:
+        setMapViewStatus(EMapViewStatus.clear);
+        break;
+    }
+  }, [mapViewStatus, setMapViewStatus]);
+
+  useEffect(() => setBackHandler(() => handleBackButton), [
+    setBackHandler,
+    handleBackButton
+  ]);
 
   return (
     <View style={styles.container}>
-      <Map />
+      <Map
+        isPicking={isPicking}
+        pickedCoordinate={pickedCoordinate}
+        setPickedCoordintate={setPickedCoordintate}
+      />
 
       {/* Account Button */}
       <AnimatedImageButton
@@ -65,6 +104,7 @@ function MapView({ toAccount, setBackHandler }) {
           style={styles.backIconContainer}
           onPress={() => {
             setMapViewStatus(EMapViewStatus.clear);
+            clearPickedCoordinate();
           }}
         >
           <Image source={back} style={styles.backIcon} />
@@ -93,6 +133,7 @@ function MapView({ toAccount, setBackHandler }) {
           }
         }}
         onPress={() => {
+          setIsPicking(true);
           setMapViewStatus(EMapViewStatus.picking);
         }}
       />
