@@ -7,7 +7,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import Colors from 'global/colors';
 import { MapViewIndex } from 'global/zIndex';
 
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     zIndex: MapViewIndex.map
