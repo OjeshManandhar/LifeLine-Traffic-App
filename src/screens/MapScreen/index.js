@@ -7,6 +7,9 @@ import Map from 'components/Map';
 // global
 import Routes from 'global/routes';
 
+// styles
+import styles from './styles';
+
 function MapScreen({ route, navigation }) {
   /**
    * Use route.params to get passed props
@@ -38,9 +41,7 @@ function MapScreen({ route, navigation }) {
   }, [navigation]);
 
   return (
-    <View>
-      <Text>MapScreen</Text>
-
+    <View style={styles.container}>
       <Map />
 
       <Button

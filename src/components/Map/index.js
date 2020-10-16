@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { PermissionsAndroid } from 'react-native';
+import { Text, PermissionsAndroid } from 'react-native';
 
 // packages
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -45,6 +45,13 @@ function Map() {
   return (
     <MapboxGL.MapView style={styles.container}>
       <MapboxGL.UserLocation visible animated showsUserHeadingIndicator />
+      <MapboxGL.Camera
+        animationMode={'easeTo'}
+        animationDuration={1.5 * 1000}
+        followUserLocation={true}
+        followUserMode={MapboxGL.UserTrackingModes.FollowWithCourse}
+        followZoomLevel={14}
+      />
     </MapboxGL.MapView>
   );
 }
