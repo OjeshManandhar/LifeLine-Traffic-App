@@ -1,15 +1,13 @@
-import React from 'react';
-import {
-  View,
-  Image,
-  ScrollView,
-  TouchableWithoutFeedback
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, TouchableNativeFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 
 // components
 import Text from 'components/Text';
 import AnimatedView from 'components/AnimatedView';
+
+// utils
+import reverseGeocoder from 'utils/reverseGeocoder';
 
 // assets
 import cross from 'assets/images/cross.png';
@@ -17,7 +15,45 @@ import cross from 'assets/images/cross.png';
 // styles
 import styles, { containerHeight } from './styles';
 
-function ObstructionInfo({ show, onClose, selectedObstruction }) {
+function ObstructionInfo({
+  show,
+  onUse,
+  onClose,
+  newObstruction,
+  pickedCoordinate,
+  selectedObstruction
+}) {
+  const [findingInfo, setFindingInfo] = useState(true);
+  const [pickedLocation, setPickedLocation] = useState(null);
+
+  useEffect(() => {
+    if (newObstruction) {
+      setPickedLocation(null);
+      setFindingInfo(true);
+
+      //reverseGeocode
+      pickedCoordinate &&
+        reverseGeocoder(pickedCoordinate)
+          .then(result => {
+            setPickedLocation(result);
+            setFindingInfo(false);
+          })
+          .catch(error => console.log('error:', error));
+    } else {
+      setFindingInfo(false);
+      setPickedLocation(selectedObstruction);
+    }
+  }, [
+    setFindingInfo,
+    newObstruction,
+    pickedCoordinate,
+    setPickedLocation,
+    selectedObstruction
+  ]);
+
+  if (newObstruction && !pickedCoordinate) return <></>;
+  if (!newObstruction && !selectedObstruction) return <></>;
+
   return (
     <AnimatedView
       in={show}
@@ -38,36 +74,22 @@ function ObstructionInfo({ show, onClose, selectedObstruction }) {
         }
       }}
     >
-      {selectedObstruction ? (
+      {findingInfo && !pickedLocation ? (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={styles.placeName} numberOfLines={1}>
-              {selectedObstruction.properties.name}
-            </Text>
-            <TouchableWithoutFeedback onPress={onClose}>
-              <Image source={cross} style={styles.cross} />
-            </TouchableWithoutFeedback>
-          </View>
-
-          <Text style={styles.placeLocation} numberOfLines={1}>
-            {selectedObstruction.properties.location}
+          <Text style={styles.loading} numberOfLines={1}>
+            loading
           </Text>
-
-          <ScrollView
-            horizontal={true}
-            style={styles.descriptionContainer}
-            showsHorizontalScrollIndicator={false}
-          >
-            <Text style={styles.description} numberOfLines={1}>
-              {selectedObstruction.properties.description}
-            </Text>
-          </ScrollView>
         </View>
       ) : (
         <View style={styles.container}>
-          <Text style={styles.placeName} numberOfLines={1}>
-            Select an obstruction
-          </Text>
+          <View style={styles.placeInfo}>
+            <Text style={styles.placeName} numberOfLines={1}>
+              {pickedLocation.properties.name}
+            </Text>
+            <Text style={styles.placeLocation} numberOfLines={1}>
+              {pickedLocation.properties.location}
+            </Text>
+          </View>
         </View>
       )}
     </AnimatedView>

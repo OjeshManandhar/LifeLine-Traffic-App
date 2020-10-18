@@ -46,7 +46,7 @@ const theme = {
   }
 };
 
-// UserLocation.init();
+UserLocation.init();
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
 function App() {

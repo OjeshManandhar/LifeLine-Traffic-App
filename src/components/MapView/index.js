@@ -5,6 +5,7 @@ import { View, Image, Pressable, BackHandler } from 'react-native';
 import Map from 'components/Map';
 import Text from 'components/Text';
 import AnimatedView from 'components/AnimatedView';
+import ObstructionInfo from 'components/ObstructionInfo';
 import AnimatedImageButton from 'components/AnimatedImageButton';
 
 // assets
@@ -20,7 +21,10 @@ import styles, { topContainerHeight } from './styles';
 
 function MapView({ toAccount, setBackHandler }) {
   const [isPicking, setIsPicking] = useState(false);
+  const [description, setDescription] = useState('');
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
+  const [selectedObstruction, setSelectedObstruction] = useState(null);
+  const [createdObstructionList, setCreatedObstructionList] = useState([]);
 
   const [mapViewStatus, setMapViewStatus] = useState(EMapViewStatus.clear);
 
@@ -35,14 +39,11 @@ function MapView({ toAccount, setBackHandler }) {
       case EMapViewStatus.clear:
         BackHandler.exitApp();
         break;
-      case EMapViewStatus.picking:
+      case EMapViewStatus.addingObstruction:
         setMapViewStatus(EMapViewStatus.clear);
         clearPickedCoordinate();
         break;
-      case EMapViewStatus.addingObstruction:
-        setMapViewStatus(EMapViewStatus.clear);
-        break;
-      case EMapViewStatus.addingObstruction:
+      case EMapViewStatus.obstructionInfo:
         setMapViewStatus(EMapViewStatus.clear);
         break;
       case EMapViewStatus.routeInfo:
@@ -86,7 +87,7 @@ function MapView({ toAccount, setBackHandler }) {
 
       {/* Top Container */}
       <AnimatedView
-        in={mapViewStatus === EMapViewStatus.picking}
+        in={mapViewStatus === EMapViewStatus.addingObstruction}
         timeout={0.25 * 1000}
         viewStyles={styles.topAnimatedContainer}
         animationStyles={{
@@ -134,7 +135,35 @@ function MapView({ toAccount, setBackHandler }) {
         }}
         onPress={() => {
           setIsPicking(true);
-          setMapViewStatus(EMapViewStatus.picking);
+          setMapViewStatus(EMapViewStatus.addingObstruction);
+        }}
+      />
+
+      {/* ObstructionInfo */}
+      <ObstructionInfo
+        show={
+          mapViewStatus === EMapViewStatus.addingObstruction ||
+          mapViewStatus === EMapViewStatus.obstructionInfo
+        }
+        pickedCoordinate={pickedCoordinate}
+        selectedObstruction={selectedObstruction}
+        newObstruction={mapViewStatus === EMapViewStatus.addingObstruction}
+        onUse={data => {
+          if (mapViewStatus === EMapViewStatus.addingObstruction) {
+            setCreatedObstructionList(currentList => {
+              const newList = currentList;
+              newList.push({ ...data, id: currentList.length });
+
+              return newList;
+            });
+
+            setIsPicking(false);
+            setPickedCoordintate(null);
+            setMapViewStatus(EMapViewStatus.clear);
+          } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
+            // delete obstruction
+            console.log('Delete obstruction data:', selectedObstruction);
+          }
         }}
       />
     </View>

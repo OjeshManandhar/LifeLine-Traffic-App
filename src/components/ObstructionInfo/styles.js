@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 // global
-import Colors from 'global/colors';
 import { ObstructionInfoIndex } from 'global/zIndex';
 
 export const containerHeight = 85;
@@ -21,42 +20,50 @@ export default StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'stretch'
   },
-  header: {
-    flexDirection: 'row',
+  loading: {
+    alignSelf: 'center',
+
+    fontSize: 20
+  },
+  placeInfo: {
+    flex: 1,
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 3
+    alignItems: 'stretch',
+    marginRight: 7.5
   },
   placeName: {
-    flex: 1,
     fontSize: 23,
     lineHeight: 23,
-    fontWeight: '500',
-    marginRight: 15
-  },
-  cross: {
-    width: 20,
-    height: 20
+    fontWeight: '500'
   },
   placeLocation: {
     fontSize: 13,
     lineHeight: 13,
-    marginBottom: 5,
-    color: Colors.secondaryText
+    color: '#757575'
   },
-  descriptionContainer: {
-    flex: 1
-  },
-  description: {
-    fontSize: 18,
-    lineHeight: 20,
-    color: Colors.mainText
+  pickButton: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
 
-    // borderWidth: 2,
-    // borderColor: 'red'
+    height: '100%',
+    borderRadius: 50,
+    paddingHorizontal: 17.5,
+
+    backgroundColor: '#1a73e8'
+  },
+  pickIcon: {
+    width: 18.5,
+    height: 18.5,
+    marginRight: 10
+  },
+  pickText: {
+    color: 'white',
+    fontSize: 16
   }
 });

@@ -11,8 +11,7 @@ export const EMapScreenStatus = Object.freeze({
 
 export const EMapViewStatus = Object.freeze({
   clear: 0,
-  picking: 1,
-  addingObstruction: 2,
-  obstructionInfo: 3,
-  routeInfo: 4
+  addingObstruction: 1,
+  obstructionInfo: 2,
+  routeInfo: 3
 });
