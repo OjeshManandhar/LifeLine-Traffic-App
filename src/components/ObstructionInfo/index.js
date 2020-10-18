@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, TouchableNativeFeedback } from 'react-native';
+import {
+  View,
+  Image,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback
+} from 'react-native';
 import PropTypes from 'prop-types';
+
+// packages
+import { Divider, TextInput } from 'react-native-paper';
 
 // components
 import Text from 'components/Text';
@@ -12,6 +20,9 @@ import reverseGeocoder from 'utils/reverseGeocoder';
 // assets
 import cross from 'assets/images/cross.png';
 
+// global
+import { ObstructionInfoText } from 'global/strings';
+
 // styles
 import styles, { containerHeight } from './styles';
 
@@ -19,10 +30,14 @@ function ObstructionInfo({
   show,
   onUse,
   onClose,
+  description,
+  descriptionRef,
   newObstruction,
   pickedCoordinate,
   selectedObstruction
 }) {
+  const [des, setDes] = description;
+
   const [findingInfo, setFindingInfo] = useState(true);
   const [pickedLocation, setPickedLocation] = useState(null);
 
@@ -76,19 +91,62 @@ function ObstructionInfo({
     >
       {findingInfo && !pickedLocation ? (
         <View style={styles.container}>
-          <Text style={styles.loading} numberOfLines={1}>
-            loading
-          </Text>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.loading} numberOfLines={1}>
+              {ObstructionInfoText.loading}
+            </Text>
+          </View>
         </View>
       ) : (
         <View style={styles.container}>
-          <View style={styles.placeInfo}>
+          <View style={styles.header}>
             <Text style={styles.placeName} numberOfLines={1}>
               {pickedLocation.properties.name}
             </Text>
-            <Text style={styles.placeLocation} numberOfLines={1}>
-              {pickedLocation.properties.location}
-            </Text>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                const des = descriptionRef.current;
+                if (des && des.isFocused()) {
+                  des.blur();
+                  updateDestinationInfo && updateDestinationInfo();
+                }
+                onClose();
+              }}
+            >
+              <Image source={cross} style={styles.cross} />
+            </TouchableWithoutFeedback>
+          </View>
+
+          <Text style={styles.placeLocation} numberOfLines={1}>
+            {pickedLocation.properties.location}
+          </Text>
+
+          <Divider style={styles.divider} />
+
+          <View style={styles.footer}>
+            <TextInput
+              ref={descriptionRef}
+              mode='flat'
+              dense={true}
+              multiline={false}
+              numberOfLine={1}
+              returnKeyType='done'
+              style={styles.description}
+              label={ObstructionInfoText.description}
+              placeholder={ObstructionInfoText.description}
+              value={des}
+              onChangeText={setDes}
+              /**
+               * Cannot do onBlur={updateDestinationInfo}
+               * Because updateDestinationInfo will take the object argument from
+               * onBlur and use it as emergency
+               */
+              onBlur={() => updateDestinationInfo && updateDestinationInfo()}
+            />
+
+            <View style={styles.useButton}>
+              <Image source={cross} style={styles.useIcon} />
+            </View>
           </View>
         </View>
       )}

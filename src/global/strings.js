@@ -24,6 +24,15 @@ export const MapScreenText = {
   }
 };
 
+export const MapViewText = {
+  pickLocation: 'Tap to pick a location'
+};
+
+export const ObstructionInfoText = {
+  loading: 'Loading ...',
+  description: 'Obstruction information'
+};
+
 export const AccountViewText = {
   button: 'Log Out',
   accountType: {

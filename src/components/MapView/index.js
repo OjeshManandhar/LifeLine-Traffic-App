@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { View, Image, Pressable, BackHandler } from 'react-native';
 
 // components
@@ -14,12 +14,15 @@ import account from 'assets/images/dead.png';
 import addButton from 'assets/images/addButton.png';
 
 // global
+import { MapViewText } from 'global/strings';
 import { EMapViewStatus } from 'global/enum';
 
 // styles
 import styles, { topContainerHeight } from './styles';
 
 function MapView({ toAccount, setBackHandler }) {
+  const descriptionRef = useRef(null);
+
   const [isPicking, setIsPicking] = useState(false);
   const [description, setDescription] = useState('');
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
@@ -112,7 +115,7 @@ function MapView({ toAccount, setBackHandler }) {
         </Pressable>
 
         <View style={styles.topTextContainer}>
-          <Text style={styles.topText}>Tap to pick a location</Text>
+          <Text style={styles.topText}>{MapViewText.pickLocation}</Text>
         </View>
       </AnimatedView>
 
@@ -145,9 +148,16 @@ function MapView({ toAccount, setBackHandler }) {
           mapViewStatus === EMapViewStatus.addingObstruction ||
           mapViewStatus === EMapViewStatus.obstructionInfo
         }
+        description={[description, setDescription]}
+        descriptionRef={descriptionRef}
         pickedCoordinate={pickedCoordinate}
         selectedObstruction={selectedObstruction}
         newObstruction={mapViewStatus === EMapViewStatus.addingObstruction}
+        updateDestinationInfo={
+          mapViewStatus === EMapViewStatus.obstructionInfo
+            ? () => console.log('Update description')
+            : null
+        }
         onUse={data => {
           if (mapViewStatus === EMapViewStatus.addingObstruction) {
             setCreatedObstructionList(currentList => {
