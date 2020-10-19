@@ -35,7 +35,8 @@ function ObstructionInfo({
   descriptionRef,
   newObstruction,
   pickedCoordinate,
-  selectedObstruction
+  selectedObstruction,
+  updateObstructionInfo
 }) {
   const [des, setDes] = description;
 
@@ -56,6 +57,9 @@ function ObstructionInfo({
           })
           .catch(error => console.log('error:', error));
     } else {
+      console.log('newObs:', newObstruction);
+      console.log('selectedObs:', selectedObstruction);
+
       setFindingInfo(false);
       setPickedLocation(selectedObstruction);
     }
@@ -109,7 +113,7 @@ function ObstructionInfo({
                 const des = descriptionRef.current;
                 if (des && des.isFocused()) {
                   des.blur();
-                  updateDestinationInfo && updateDestinationInfo();
+                  updateObstructionInfo && updateObstructionInfo();
                 }
                 onClose();
               }}
@@ -138,11 +142,11 @@ function ObstructionInfo({
               value={des}
               onChangeText={setDes}
               /**
-               * Cannot do onBlur={updateDestinationInfo}
-               * Because updateDestinationInfo will take the object argument from
+               * Cannot do onBlur={updateObstructionInfo}
+               * Because updateObstructionInfo will take the object argument from
                * onBlur and use it as emergency
                */
-              onBlur={() => updateDestinationInfo && updateDestinationInfo()}
+              onBlur={() => updateObstructionInfo && updateObstructionInfo()}
             />
 
             <IconButton

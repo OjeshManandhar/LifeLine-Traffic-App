@@ -81,21 +81,20 @@ function Map({
         id='createdObstructionMarkers-Source'
         shape={featureCollection}
         onPress={data =>
-          // setSelectedObstruction(currentObstruction => {
-          //   console.log('cur obs:', currentObstruction);
-          //   console.log('press obs:', data.features[0]);
+          setSelectedObstruction(currentObstruction => {
+            console.log('cur obs:', currentObstruction);
+            console.log('press obs:', data.features[0]);
 
-          //   if (
-          //     !currentObstruction ||
-          //     currentObstruction.properties.id ===
-          //       data.features[0].properties.id
-          //   ) {
-          //     toggleObstructionInfo();
-          //   }
+            if (
+              !currentObstruction ||
+              currentObstruction.properties.id ===
+                data.features[0].properties.id
+            ) {
+              toggleObstructionInfo(data.features[0]);
+            }
 
-          //   return data.features[0];
-          // })
-          console.log('selected obstruction:', data.features[0])
+            return data.features[0];
+          })
         }
       >
         <MapboxGL.SymbolLayer

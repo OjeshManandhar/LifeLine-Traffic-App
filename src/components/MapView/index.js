@@ -67,6 +67,17 @@ function MapView({ toAccount, setBackHandler }) {
         pickedCoordinate={pickedCoordinate}
         setPickedCoordintate={setPickedCoordintate}
         createdObstructionList={createdObstructionList}
+        setSelectedObstruction={setSelectedObstruction}
+        toggleObstructionInfo={obstruction => {
+          if (mapViewStatus === EMapViewStatus.clear) {
+            setDescription(obstruction.properties.description);
+            setMapViewStatus(EMapViewStatus.obstructionInfo);
+          } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
+            setMapViewStatus(EMapViewStatus.clear);
+            setDescription('');
+            setSelectedObstruction(null);
+          }
+        }}
       />
 
       {/* Account Button */}
@@ -154,7 +165,7 @@ function MapView({ toAccount, setBackHandler }) {
         pickedCoordinate={pickedCoordinate}
         selectedObstruction={selectedObstruction}
         newObstruction={mapViewStatus === EMapViewStatus.addingObstruction}
-        updateDestinationInfo={
+        updateObstructionInfo={
           mapViewStatus === EMapViewStatus.obstructionInfo
             ? () => console.log('Update description')
             : null
@@ -174,10 +185,11 @@ function MapView({ toAccount, setBackHandler }) {
 
               newList.push(obstruction);
 
-              console.log('New list:', newList);
-
               return newList;
             });
+
+            console.log('Created obstruction:', obstruction);
+            /* POST obstruction to server */
 
             setDescription('');
             setIsPicking(false);
