@@ -80,30 +80,11 @@ export default StyleSheet.create({
     marginTop: -10,
     marginBottom: 5
   },
-  useButton: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-
-    height: '100%',
-    borderRadius: 50,
-    paddingHorizontal: 17.5,
-
-    marginLeft: 10,
-
-    backgroundColor: Colors.useButtonBackground
-  },
-  useIcon: {
-    width: 18.5,
-    height: 18.5,
-    marginRight: 10
-  },
-  useText: {
-    fontSize: 16,
-    lineHeight: 16,
-    color: Colors.useButtonText,
+  iconButton: {
+    alignSelf: 'center',
 
     margin: 0,
-    padding: 0
+    padding: 0,
+    marginLeft: 10
   }
 });

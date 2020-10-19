@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 // packages
-import { Divider, TextInput } from 'react-native-paper';
+import { Divider, TextInput, IconButton } from 'react-native-paper';
 
 // components
 import Text from 'components/Text';
@@ -21,6 +21,7 @@ import reverseGeocoder from 'utils/reverseGeocoder';
 import cross from 'assets/images/cross.png';
 
 // global
+import Colors from 'global/colors';
 import { ObstructionInfoText } from 'global/strings';
 
 // styles
@@ -144,9 +145,14 @@ function ObstructionInfo({
               onBlur={() => updateDestinationInfo && updateDestinationInfo()}
             />
 
-            <View style={styles.useButton}>
-              <Image source={cross} style={styles.useIcon} />
-            </View>
+            <IconButton
+              icon={
+                newObstruction ? 'plus-circle-outline' : 'delete-circle-outline'
+              }
+              size={35}
+              color={Colors.primary}
+              style={styles.iconButton}
+            />
           </View>
         </View>
       )}
