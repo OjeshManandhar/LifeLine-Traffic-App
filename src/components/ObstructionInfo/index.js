@@ -152,6 +152,7 @@ function ObstructionInfo({
               size={35}
               color={Colors.primary}
               style={styles.iconButton}
+              onPress={() => onUse(pickedLocation)}
             />
           </View>
         </View>
