@@ -4,10 +4,28 @@ import { Text, PermissionsAndroid } from 'react-native';
 // packages
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-// styles
-import styles from './styles';
+// assets
+import startMarker from 'assets/images/map/startMarker.png';
+import trafficMarker from 'assets/images/map/trafficMarker.png';
+import destinationMarker from 'assets/images/map/destinationMarker.png';
+import obstructionMarker from 'assets/images/map/obstructionMarker.png';
+import pickedLocationMarker from 'assets/images/map/pickedLocationMarker.png';
 
-function Map({ isPicking, pickedCoordinate, setPickedCoordintate }) {
+// global
+
+import { MapLayerIndex } from 'global/zIndex';
+
+// styles
+import styles, { layerStyles } from './styles';
+
+function Map({
+  isPicking,
+  pickedCoordinate,
+  setPickedCoordintate,
+  toggleObstructionInfo,
+  createdObstructionList,
+  setSelectedObstruction
+}) {
   async function askGPSPermissions() {
     try {
       const granted = await PermissionsAndroid.request(
@@ -52,6 +70,44 @@ function Map({ isPicking, pickedCoordinate, setPickedCoordintate }) {
     );
   }, [pickedCoordinate]);
 
+  const renderCreatedObstruction = useCallback(() => {
+    const featureCollection = {
+      type: 'FeatureCollection',
+      features: createdObstructionList
+    };
+
+    return (
+      <MapboxGL.ShapeSource
+        id='createdObstructionMarkers-Source'
+        shape={featureCollection}
+        onPress={data =>
+          // setSelectedObstruction(currentObstruction => {
+          //   console.log('cur obs:', currentObstruction);
+          //   console.log('press obs:', data.features[0]);
+
+          //   if (
+          //     !currentObstruction ||
+          //     currentObstruction.properties.id ===
+          //       data.features[0].properties.id
+          //   ) {
+          //     toggleObstructionInfo();
+          //   }
+
+          //   return data.features[0];
+          // })
+          console.log('selected obstruction:', data.features[0])
+        }
+      >
+        <MapboxGL.SymbolLayer
+          style={layerStyles.obstructionMarker}
+          id='createdObstructionMarkers-Layer'
+          sourceID='createdObstructionMarkers-Source'
+          layerIndex={MapLayerIndex.obstructionMarker}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  }, [toggleObstructionInfo, createdObstructionList, setSelectedObstruction]);
+
   return (
     <MapboxGL.MapView
       style={styles.container}
@@ -73,7 +129,19 @@ function Map({ isPicking, pickedCoordinate, setPickedCoordintate }) {
         followZoomLevel={14}
       />
 
+      <MapboxGL.Images
+        images={{
+          startMarker: startMarker,
+          trafficMarker: trafficMarker,
+          destinationMarker: destinationMarker,
+          obstructionMarker: obstructionMarker,
+          pickedLocationMarker: pickedLocationMarker
+        }}
+      />
+
       {isPicking && pickedCoordinate && renderPickedCoordinate()}
+
+      {createdObstructionList.length > 0 && renderCreatedObstruction()}
     </MapboxGL.MapView>
   );
 }
