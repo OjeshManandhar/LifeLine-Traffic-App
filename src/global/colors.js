@@ -1,6 +1,6 @@
 export default {
   accent: 'yellow',
-  primary: '#ff3a3a',
+  primary: '#0973ba',
 
   link: '#ff3a3a',
   mainText: '#121212',
