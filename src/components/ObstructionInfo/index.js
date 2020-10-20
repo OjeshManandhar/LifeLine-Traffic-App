@@ -48,7 +48,7 @@ function ObstructionInfo({
     if (newObstruction) {
       setPickedLocation(null);
       setFindingInfo(true);
-      setEditable(false);
+      setEditable(true);
 
       //reverseGeocode
       pickedCoordinate &&
@@ -181,7 +181,7 @@ function ObstructionInfo({
                 showsHorizontalScrollIndicator={false}
               >
                 <Text style={styles.unEditableDescription} numberOfLines={1}>
-                  {selectedObstruction.properties.description}
+                  {pickedLocation.properties.description}
                 </Text>
               </ScrollView>
             </React.Fragment>

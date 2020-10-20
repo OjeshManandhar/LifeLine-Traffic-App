@@ -64,12 +64,18 @@ export default StyleSheet.create({
     marginVertical: 2
   },
   descriptionHeading: {
-    color: Colors.primary,
-    fontSize: 12,
-    marginBottom: 5
+    color: Colors.secondaryText,
+    fontSize: 12
   },
   descriptionContainer: {
-    flex: 1
+    flex: 1,
+
+    padding: 2,
+
+    marginBottom: 2,
+
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.greyBorder
   },
   unEditableDescription: {
     fontSize: 18,
