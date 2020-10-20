@@ -19,6 +19,8 @@ import { EMapViewStatus } from 'global/enum';
 
 // styles
 import styles, { topContainerHeight } from './styles';
+import { create } from 'react-test-renderer';
+import { set } from 'react-native-reanimated';
 
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
@@ -68,8 +70,10 @@ function MapView({ toAccount, setBackHandler }) {
         setPickedCoordintate={setPickedCoordintate}
         createdObstructionList={createdObstructionList}
         setSelectedObstruction={setSelectedObstruction}
-        toggleObstructionInfo={obstruction => {
-          if (mapViewStatus === EMapViewStatus.clear) {
+        toggleObstructionInfo={(obstruction, update) => {
+          if (update) {
+            setDescription(obstruction.properties.description);
+          } else if (mapViewStatus === EMapViewStatus.clear) {
             setDescription(obstruction.properties.description);
             setMapViewStatus(EMapViewStatus.obstructionInfo);
           } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
@@ -167,9 +171,30 @@ function MapView({ toAccount, setBackHandler }) {
         newObstruction={mapViewStatus === EMapViewStatus.addingObstruction}
         updateObstructionInfo={
           mapViewStatus === EMapViewStatus.obstructionInfo
-            ? () => console.log('Update description')
+            ? () => {
+                const index = createdObstructionList.findIndex(
+                  obs => obs.properties.id === selectedObstruction.properties.id
+                );
+
+                const newList = createdObstructionList;
+                newList[index].properties.description = description;
+
+                console.log('Updated Obstruction:', newList[index]);
+                /* PATCH to server */
+
+                setCreatedObstructionList(newList);
+              }
             : null
         }
+        onClose={() => {
+          setMapViewStatus(EMapViewStatus.clear);
+
+          setDescription('');
+
+          if (mapViewStatus === EMapViewStatus.obstructionInfo) {
+            setSelectedObstruction(null);
+          }
+        }}
         onUse={data => {
           if (mapViewStatus === EMapViewStatus.addingObstruction) {
             const obstruction = { ...data };
@@ -198,6 +223,18 @@ function MapView({ toAccount, setBackHandler }) {
           } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
             // delete obstruction
             console.log('Delete obstruction data:', selectedObstruction);
+
+            /* DELTE obstruction to server */
+
+            setCreatedObstructionList(curList =>
+              curList.filter(
+                obs => obs.properties.id !== selectedObstruction.properties.id
+              )
+            );
+
+            setMapViewStatus(EMapViewStatus.clear);
+            setDescription('');
+            setSelectedObstruction(null);
           }
         }}
       />

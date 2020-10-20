@@ -82,12 +82,17 @@ function Map({
         shape={featureCollection}
         onPress={data =>
           setSelectedObstruction(currentObstruction => {
-            if (
-              !currentObstruction ||
-              currentObstruction.properties.id ===
-                data.features[0].properties.id
-            ) {
+            if (!currentObstruction) {
               toggleObstructionInfo(data.features[0]);
+            } else {
+              if (
+                currentObstruction.properties.id ===
+                data.features[0].properties.id
+              ) {
+                toggleObstructionInfo(data.features[0]);
+              } else {
+                toggleObstructionInfo(data.features[0], true);
+              }
             }
 
             return data.features[0];
