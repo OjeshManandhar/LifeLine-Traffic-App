@@ -87,7 +87,9 @@ function Map({
             } else {
               if (
                 currentObstruction.properties.id ===
-                data.features[0].properties.id
+                  data.features[0].properties.id &&
+                currentObstruction.properties.createdBy ===
+                  data.features[0].properties.createdBy
               ) {
                 toggleObstructionInfo(data.features[0]);
               } else {
