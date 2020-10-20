@@ -59,8 +59,6 @@ function ObstructionInfo({
           })
           .catch(error => console.log('error:', error));
     } else if (selectedObstruction) {
-      console.log('selectedObs:', selectedObstruction);
-
       setFindingInfo(false);
       setPickedLocation(selectedObstruction);
       if (selectedObstruction.properties.createdBy === 'DeadSkull') {
