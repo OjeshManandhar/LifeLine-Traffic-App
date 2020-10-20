@@ -86,7 +86,7 @@ function MapView({ toAccount, setBackHandler }) {
 
       {/* Account Button */}
       <AnimatedImageButton
-        in={mapViewStatus === EMapViewStatus.clear}
+        in={mapViewStatus !== EMapViewStatus.addingObstruction}
         image={account}
         timeout={0.25 * 1000}
         useViewContainer={true}
