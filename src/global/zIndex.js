@@ -20,15 +20,11 @@ export const MapViewIndex = {
   topContainer: 201
 };
 
-export const PickedCoordinateInfoIndex = {
+export const ObstructionInfoIndex = {
   base: MapViewIndex.bottomInfoBox
 };
 
 export const RouteInfoIndex = {
-  base: MapViewIndex.bottomInfoBox
-};
-
-export const ObstructionInfoIndex = {
   base: MapViewIndex.bottomInfoBox
 };
 

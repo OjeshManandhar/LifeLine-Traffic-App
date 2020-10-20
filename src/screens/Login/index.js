@@ -33,6 +33,8 @@ import { LoginText } from 'global/strings';
 import styles from './styles';
 
 function Login({ navigation }) {
+  const userToken = UserToken.get();
+
   const LOGO_SIZE = 120;
   const TRANSLATATION_VALUE = 120;
   const ANIMATION_DURATION = 0.5 * 1000;
@@ -150,10 +152,12 @@ function Login({ navigation }) {
   }, []);
 
   useEffect(() => {
-    if (UserToken.get()) {
+    if (userToken) {
       navigation.navigate(Routes.map);
     }
   }, [navigation]);
+
+  if (userToken) return null;
 
   return (
     <View style={styles.container}>

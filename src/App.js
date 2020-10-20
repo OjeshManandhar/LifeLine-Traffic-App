@@ -12,6 +12,7 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 
 // packages
+import MapboxGL from '@react-native-mapbox-gl/maps';
 import SplashScreen from 'react-native-splash-screen';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
@@ -29,6 +30,9 @@ import UserLocation from 'utils/userLocation';
 import Fonts from 'global/fonts';
 import Colors from 'global/colors';
 
+// env
+import { MAPBOX_API_KEY } from '@env';
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -42,7 +46,8 @@ const theme = {
   }
 };
 
-// UserLocation.init();
+UserLocation.init();
+MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
 function App() {
   const [isReady, setIsReady] = useState(false);
