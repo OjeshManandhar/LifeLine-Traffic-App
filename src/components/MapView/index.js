@@ -19,8 +19,37 @@ import { EMapViewStatus } from 'global/enum';
 
 // styles
 import styles, { topContainerHeight } from './styles';
-import { create } from 'react-test-renderer';
-import { set } from 'react-native-reanimated';
+
+const dummyObstruction = [
+  {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [85.3182293, 27.6945427]
+    },
+    properties: {
+      id: 1,
+      createdBy: 'qwe',
+      name: 'Maitighar',
+      location: 'Maitighar, Kathmandu, Bagmati, Nepal',
+      description: 'normal day jam'
+    }
+  },
+  {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [85.3165243, 27.6834457]
+    },
+    properties: {
+      id: 2,
+      createdBy: 'qwe',
+      name: 'Hotel Himalaya',
+      location: 'Hotel Himalaya, Lalitpur, Bagmati, Nepal',
+      description: 'Accident'
+    }
+  }
+];
 
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
@@ -30,6 +59,9 @@ function MapView({ toAccount, setBackHandler }) {
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
   const [selectedObstruction, setSelectedObstruction] = useState(null);
   const [createdObstructionList, setCreatedObstructionList] = useState([]);
+  const [fetchedObstructionList, setFetchedObstructionList] = useState(
+    dummyObstruction
+  );
 
   const [mapViewStatus, setMapViewStatus] = useState(EMapViewStatus.clear);
 
@@ -200,8 +232,8 @@ function MapView({ toAccount, setBackHandler }) {
             const obstruction = { ...data };
             obstruction.properties = {
               ...obstruction.properties,
-              description: description
-              // createdBy:
+              description: description,
+              createdBy: 'DeadSkull'
             };
 
             setCreatedObstructionList(curList => {

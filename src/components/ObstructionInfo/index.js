@@ -40,6 +40,7 @@ function ObstructionInfo({
 }) {
   const [des, setDes] = description;
 
+  const [editable, setEditable] = useState(false);
   const [findingInfo, setFindingInfo] = useState(true);
   const [pickedLocation, setPickedLocation] = useState(null);
 
@@ -47,6 +48,7 @@ function ObstructionInfo({
     if (newObstruction) {
       setPickedLocation(null);
       setFindingInfo(true);
+      setEditable(false);
 
       //reverseGeocode
       pickedCoordinate &&
@@ -59,8 +61,14 @@ function ObstructionInfo({
     } else if (selectedObstruction) {
       setFindingInfo(false);
       setPickedLocation(selectedObstruction);
+      if (selectedObstruction.properties.createdBy === 'DeadSkull') {
+        setEditable(true);
+      } else {
+        setEditable(false);
+      }
     }
   }, [
+    setEditable,
     setFindingInfo,
     newObstruction,
     pickedCoordinate,
@@ -108,7 +116,7 @@ function ObstructionInfo({
             <TouchableWithoutFeedback
               onPress={() => {
                 const des = descriptionRef.current;
-                if (des && des.isFocused()) {
+                if (editable && des && des.isFocused()) {
                   des.blur();
                   updateObstructionInfo && updateObstructionInfo();
                 }
@@ -125,37 +133,51 @@ function ObstructionInfo({
 
           <Divider style={styles.divider} />
 
-          <View style={styles.footer}>
-            <TextInput
-              ref={descriptionRef}
-              mode='flat'
-              dense={true}
-              multiline={false}
-              numberOfLine={1}
-              returnKeyType='done'
-              style={styles.description}
-              label={ObstructionInfoText.description}
-              placeholder={ObstructionInfoText.description}
-              value={des}
-              onChangeText={setDes}
-              /**
-               * Cannot do onBlur={updateObstructionInfo}
-               * Because updateObstructionInfo will take the object argument from
-               * onBlur and use it as emergency
-               */
-              onBlur={() => updateObstructionInfo && updateObstructionInfo()}
-            />
+          {editable ? (
+            <ScrollView
+              horizontal={true}
+              style={styles.descriptionContainer}
+              showsHorizontalScrollIndicator={false}
+            >
+              <Text style={styles.description} numberOfLines={1}>
+                {selectedObstruction.properties.description}
+              </Text>
+            </ScrollView>
+          ) : (
+            <View style={styles.footer}>
+              <TextInput
+                ref={descriptionRef}
+                mode='flat'
+                dense={true}
+                multiline={false}
+                numberOfLine={1}
+                returnKeyType='done'
+                style={styles.description}
+                label={ObstructionInfoText.description}
+                placeholder={ObstructionInfoText.description}
+                value={des}
+                onChangeText={setDes}
+                /**
+                 * Cannot do onBlur={updateObstructionInfo}
+                 * Because updateObstructionInfo will take the object argument from
+                 * onBlur and use it as emergency
+                 */
+                onBlur={() => updateObstructionInfo && updateObstructionInfo()}
+              />
 
-            <IconButton
-              icon={
-                newObstruction ? 'plus-circle-outline' : 'delete-circle-outline'
-              }
-              size={35}
-              color={Colors.primary}
-              style={styles.iconButton}
-              onPress={() => onUse(pickedLocation)}
-            />
-          </View>
+              <IconButton
+                icon={
+                  newObstruction
+                    ? 'plus-circle-outline'
+                    : 'delete-circle-outline'
+                }
+                size={35}
+                color={Colors.primary}
+                style={styles.iconButton}
+                onPress={() => onUse(pickedLocation)}
+              />
+            </View>
+          )}
         </View>
       )}
     </AnimatedView>

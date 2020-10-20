@@ -63,6 +63,17 @@ export default StyleSheet.create({
     height: 2,
     marginVertical: 2
   },
+  descriptionContainer: {
+    flex: 1
+  },
+  description: {
+    fontSize: 18,
+    lineHeight: 20,
+    color: Colors.mainText
+
+    // borderWidth: 2,
+    // borderColor: 'red'
+  },
   footer: {
     flex: 1,
     flexDirection: 'row',
