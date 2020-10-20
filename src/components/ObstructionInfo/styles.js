@@ -63,16 +63,18 @@ export default StyleSheet.create({
     height: 2,
     marginVertical: 2
   },
+  descriptionHeading: {
+    color: Colors.primary,
+    fontSize: 12,
+    marginBottom: 5
+  },
   descriptionContainer: {
     flex: 1
   },
-  description: {
+  unEditableDescription: {
     fontSize: 18,
     lineHeight: 20,
     color: Colors.mainText
-
-    // borderWidth: 2,
-    // borderColor: 'red'
   },
   footer: {
     flex: 1,

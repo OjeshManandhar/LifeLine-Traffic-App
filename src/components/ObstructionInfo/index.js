@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Image,
-  TouchableNativeFeedback,
+  ScrollView,
   TouchableWithoutFeedback
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -59,6 +59,8 @@ function ObstructionInfo({
           })
           .catch(error => console.log('error:', error));
     } else if (selectedObstruction) {
+      console.log('selectedObs:', selectedObstruction);
+
       setFindingInfo(false);
       setPickedLocation(selectedObstruction);
       if (selectedObstruction.properties.createdBy === 'DeadSkull') {
@@ -134,16 +136,6 @@ function ObstructionInfo({
           <Divider style={styles.divider} />
 
           {editable ? (
-            <ScrollView
-              horizontal={true}
-              style={styles.descriptionContainer}
-              showsHorizontalScrollIndicator={false}
-            >
-              <Text style={styles.description} numberOfLines={1}>
-                {selectedObstruction.properties.description}
-              </Text>
-            </ScrollView>
-          ) : (
             <View style={styles.footer}>
               <TextInput
                 ref={descriptionRef}
@@ -177,6 +169,22 @@ function ObstructionInfo({
                 onPress={() => onUse(pickedLocation)}
               />
             </View>
+          ) : (
+            <React.Fragment>
+              <Text style={styles.descriptionHeading}>
+                {ObstructionInfoText.description}
+              </Text>
+
+              <ScrollView
+                horizontal={true}
+                style={styles.descriptionContainer}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Text style={styles.unEditableDescription} numberOfLines={1}>
+                  {selectedObstruction.properties.description}
+                </Text>
+              </ScrollView>
+            </React.Fragment>
           )}
         </View>
       )}

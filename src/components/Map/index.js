@@ -20,10 +20,10 @@ import styles, { layerStyles } from './styles';
 
 function Map({
   isPicking,
+  obstructionList,
   pickedCoordinate,
   setPickedCoordintate,
   toggleObstructionInfo,
-  createdObstructionList,
   setSelectedObstruction
 }) {
   async function askGPSPermissions() {
@@ -70,10 +70,10 @@ function Map({
     );
   }, [pickedCoordinate]);
 
-  const renderCreatedObstruction = useCallback(() => {
+  const renderObstruction = useCallback(() => {
     const featureCollection = {
       type: 'FeatureCollection',
-      features: createdObstructionList
+      features: obstructionList
     };
 
     return (
@@ -107,7 +107,7 @@ function Map({
         />
       </MapboxGL.ShapeSource>
     );
-  }, [toggleObstructionInfo, createdObstructionList, setSelectedObstruction]);
+  }, [toggleObstructionInfo, obstructionList, setSelectedObstruction]);
 
   return (
     <MapboxGL.MapView
@@ -142,7 +142,7 @@ function Map({
 
       {isPicking && pickedCoordinate && renderPickedCoordinate()}
 
-      {createdObstructionList.length > 0 && renderCreatedObstruction()}
+      {obstructionList.length > 0 && renderObstruction()}
     </MapboxGL.MapView>
   );
 }

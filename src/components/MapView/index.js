@@ -100,8 +100,8 @@ function MapView({ toAccount, setBackHandler }) {
         isPicking={isPicking}
         pickedCoordinate={pickedCoordinate}
         setPickedCoordintate={setPickedCoordintate}
-        createdObstructionList={createdObstructionList}
         setSelectedObstruction={setSelectedObstruction}
+        obstructionList={[...createdObstructionList, ...fetchedObstructionList]}
         toggleObstructionInfo={(obstruction, update) => {
           if (update) {
             setDescription(obstruction.properties.description);
