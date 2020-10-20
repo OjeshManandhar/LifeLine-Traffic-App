@@ -82,9 +82,6 @@ function Map({
         shape={featureCollection}
         onPress={data =>
           setSelectedObstruction(currentObstruction => {
-            console.log('cur obs:', currentObstruction);
-            console.log('press obs:', data.features[0]);
-
             if (
               !currentObstruction ||
               currentObstruction.properties.id ===

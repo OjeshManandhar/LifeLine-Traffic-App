@@ -56,10 +56,7 @@ function ObstructionInfo({
             setFindingInfo(false);
           })
           .catch(error => console.log('error:', error));
-    } else {
-      console.log('newObs:', newObstruction);
-      console.log('selectedObs:', selectedObstruction);
-
+    } else if (selectedObstruction) {
       setFindingInfo(false);
       setPickedLocation(selectedObstruction);
     }
