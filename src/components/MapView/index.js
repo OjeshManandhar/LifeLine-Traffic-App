@@ -54,16 +54,16 @@ const dummyObstruction = [
 const dummyDriverLocations = [
   {
     type: 'Feature',
-    geometry: { type: 'Point', coordinates: [84.3, 26.6] },
+    geometry: { type: 'Point', coordinates: [85.3, 27.6] },
     properties: {
-      userId: 'qwertyuiop'
+      id: 'qwertyuiop'
     }
   },
   {
     type: 'Feature',
-    geometry: { type: 'Point', coordinates: [84.4, 26.5] },
+    geometry: { type: 'Point', coordinates: [85.4, 27.5] },
     properties: {
-      userId: 'asdfghjkl'
+      id: 'asdfghjkl'
     }
   }
 ];
@@ -71,16 +71,22 @@ const dummyDriverLocations = [
 const dummyTrafficLocations = [
   {
     type: 'Feature',
-    geometry: { type: 'Point', coordinates: [85.3, 27.6] },
+    geometry: {
+      type: 'Point',
+      coordinates: [85.3187843, 27.6949837]
+    },
     properties: {
-      userId: 'qwertyuiop'
+      id: 1
     }
   },
   {
     type: 'Feature',
-    geometry: { type: 'Point', coordinates: [85.4, 27.5] },
+    geometry: {
+      type: 'Point',
+      coordinates: [85.3341016, 27.6883948]
+    },
     properties: {
-      userId: 'asdfghjkl'
+      id: 2
     }
   }
 ];
@@ -154,6 +160,8 @@ function MapView({ toAccount, setBackHandler }) {
         }}
         toAccount={id => {
           if (mapViewStatus === EMapViewStatus.clear) {
+            console.log('ID:', id);
+
             toAccount(id);
           }
         }}
