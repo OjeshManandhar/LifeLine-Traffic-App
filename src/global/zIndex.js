@@ -32,10 +32,8 @@ export const MapLayerIndex = {
   // 125 => layerIndex of the users location indicator
   // so make other below 125
 
-  routeToDestination: 100,
-  routesToPickedLocation: 105,
-  selectedRouteToPickedLocation: 110,
-  pickedLocationMarker: 114,
+  routeToDestination: 105,
+  driverMarker: 110,
   trafficMarker: 115,
   obstructionMarker: 120,
   startLocationMarker: 124,

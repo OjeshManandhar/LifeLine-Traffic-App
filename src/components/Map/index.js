@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { Text, PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 
 // packages
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -7,9 +7,9 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 // assets
 import startMarker from 'assets/images/map/startMarker.png';
 import trafficMarker from 'assets/images/map/trafficMarker.png';
+import ambulanceMarker from 'assets/images/map/ambulanceMarker.png';
 import destinationMarker from 'assets/images/map/destinationMarker.png';
 import obstructionMarker from 'assets/images/map/obstructionMarker.png';
-import pickedLocationMarker from 'assets/images/map/pickedLocationMarker.png';
 
 // global
 
@@ -20,7 +20,10 @@ import styles, { layerStyles } from './styles';
 
 function Map({
   isPicking,
+  toAccount,
+  driverLocation,
   obstructionList,
+  trafficLocation,
   pickedCoordinate,
   setPickedCoordintate,
   toggleObstructionInfo,
@@ -111,6 +114,50 @@ function Map({
     );
   }, [toggleObstructionInfo, obstructionList, setSelectedObstruction]);
 
+  const renderDriverMarker = useCallback(() => {
+    const featureCollection = {
+      type: 'FeatureCollection',
+      features: driverLocation
+    };
+
+    return (
+      <MapboxGL.ShapeSource
+        id='driverMarkers-Source'
+        shape={featureCollection}
+        onPress={data => toAccount(data.features[0].properties.id)}
+      >
+        <MapboxGL.SymbolLayer
+          style={layerStyles.driverMarker}
+          id='driverMarker-Layer'
+          sourceID='driverMarkers-Source'
+          layerIndex={MapLayerIndex.driverMarker}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  }, [driverLocation]);
+
+  const renderTrafficMarker = useCallback(() => {
+    const featureCollection = {
+      type: 'FeatureCollection',
+      features: trafficLocation
+    };
+
+    return (
+      <MapboxGL.ShapeSource
+        id='trafficMarkers-Source'
+        shape={featureCollection}
+        onPress={data => toAccount(data.features[0].properties.id)}
+      >
+        <MapboxGL.SymbolLayer
+          style={layerStyles.trafficMarker}
+          id='trafficMarker-Layer'
+          sourceID='trafficMarkers-Source'
+          layerIndex={MapLayerIndex.trafficMarker}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  }, [trafficLocation]);
+
   return (
     <MapboxGL.MapView
       style={styles.container}
@@ -136,15 +183,19 @@ function Map({
         images={{
           startMarker: startMarker,
           trafficMarker: trafficMarker,
+          driverMarker: ambulanceMarker,
           destinationMarker: destinationMarker,
-          obstructionMarker: obstructionMarker,
-          pickedLocationMarker: pickedLocationMarker
+          obstructionMarker: obstructionMarker
         }}
       />
 
       {isPicking && pickedCoordinate && renderPickedCoordinate()}
 
       {obstructionList.length > 0 && renderObstruction()}
+
+      {driverLocation && renderDriverMarker()}
+
+      {trafficLocation && renderTrafficMarker()}
     </MapboxGL.MapView>
   );
 }

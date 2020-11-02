@@ -51,11 +51,47 @@ const dummyObstruction = [
   }
 ];
 
+const dummyDriverLocations = [
+  {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [84.3, 26.6] },
+    properties: {
+      userId: 'qwertyuiop'
+    }
+  },
+  {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [84.4, 26.5] },
+    properties: {
+      userId: 'asdfghjkl'
+    }
+  }
+];
+
+const dummyTrafficLocations = [
+  {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [85.3, 27.6] },
+    properties: {
+      userId: 'qwertyuiop'
+    }
+  },
+  {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [85.4, 27.5] },
+    properties: {
+      userId: 'asdfghjkl'
+    }
+  }
+];
+
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
 
   const [isPicking, setIsPicking] = useState(false);
   const [description, setDescription] = useState('');
+  const [driverLocation, setDriverLocation] = useState(dummyDriverLocations);
+  const [trafficLocation, setTrafficLocation] = useState(dummyTrafficLocations);
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
   const [selectedObstruction, setSelectedObstruction] = useState(null);
   const [createdObstructionList, setCreatedObstructionList] = useState([]);
@@ -98,6 +134,8 @@ function MapView({ toAccount, setBackHandler }) {
     <View style={styles.container}>
       <Map
         isPicking={isPicking}
+        driverLocation={driverLocation}
+        trafficLocation={trafficLocation}
         pickedCoordinate={pickedCoordinate}
         setPickedCoordintate={setPickedCoordintate}
         setSelectedObstruction={setSelectedObstruction}
@@ -112,6 +150,11 @@ function MapView({ toAccount, setBackHandler }) {
             setMapViewStatus(EMapViewStatus.clear);
             setDescription('');
             setSelectedObstruction(null);
+          }
+        }}
+        toAccount={id => {
+          if (mapViewStatus === EMapViewStatus.clear) {
+            toAccount(id);
           }
         }}
       />
