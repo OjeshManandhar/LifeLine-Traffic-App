@@ -4,6 +4,7 @@ import { View, Image, Pressable, BackHandler } from 'react-native';
 // components
 import Map from 'components/Map';
 import Text from 'components/Text';
+import RouteInfo from 'components/RouteInfo';
 import AnimatedView from 'components/AnimatedView';
 import ObstructionInfo from 'components/ObstructionInfo';
 import AnimatedImageButton from 'components/AnimatedImageButton';
@@ -20,43 +21,23 @@ import { EMapViewStatus } from 'global/enum';
 // styles
 import styles, { topContainerHeight } from './styles';
 
-const dummyObstruction = [
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [85.3182293, 27.6945427]
-    },
-    properties: {
-      id: 1,
-      createdBy: 'qwe',
-      name: 'Maitighar',
-      location: 'Maitighar, Kathmandu, Bagmati, Nepal',
-      description: 'normal day jam'
-    }
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [85.3165243, 27.6834457]
-    },
-    properties: {
-      id: 2,
-      createdBy: 'qwe',
-      name: 'Hotel Himalaya',
-      location: 'Hotel Himalaya, Lalitpur, Bagmati, Nepal',
-      description: 'Accident'
-    }
-  }
-];
+import {
+  dummyRoute,
+  dummyObstruction,
+  dummyDriverLocations,
+  dummyTrafficLocations
+} from 'global/dummyData';
 
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
 
   const [isPicking, setIsPicking] = useState(false);
   const [description, setDescription] = useState('');
+  const [driverRoutes, setDriverRoutes] = useState(dummyRoute);
+  const [driverLocation, setDriverLocation] = useState(dummyDriverLocations);
+  const [trafficLocation, setTrafficLocation] = useState(dummyTrafficLocations);
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
+  const [selectedDriverRoute, setSelectedDriverRoute] = useState(null);
   const [selectedObstruction, setSelectedObstruction] = useState(null);
   const [createdObstructionList, setCreatedObstructionList] = useState([]);
   const [fetchedObstructionList, setFetchedObstructionList] = useState(
@@ -98,6 +79,9 @@ function MapView({ toAccount, setBackHandler }) {
     <View style={styles.container}>
       <Map
         isPicking={isPicking}
+        driverRoutes={driverRoutes}
+        driverLocation={driverLocation}
+        trafficLocation={trafficLocation}
         pickedCoordinate={pickedCoordinate}
         setPickedCoordintate={setPickedCoordintate}
         setSelectedObstruction={setSelectedObstruction}
@@ -112,6 +96,42 @@ function MapView({ toAccount, setBackHandler }) {
             setMapViewStatus(EMapViewStatus.clear);
             setDescription('');
             setSelectedObstruction(null);
+          }
+        }}
+        toggleRouteInfo={(id, createdBy) => {
+          if (mapViewStatus === EMapViewStatus.routeInfo) {
+            if (
+              selectedDriverRoute &&
+              id === selectedDriverRoute.properties.id &&
+              createdBy === selectedDriverRoute.properties.createdBy
+            ) {
+              setSelectedDriverRoute(null);
+              setMapViewStatus(EMapViewStatus.clear);
+            } else {
+              setSelectedDriverRoute(
+                driverRoutes.find(
+                  route =>
+                    route.properties.id === id &&
+                    route.properties.createdBy === createdBy
+                )
+              );
+            }
+          } else if (mapViewStatus === EMapViewStatus.clear) {
+            setSelectedDriverRoute(
+              driverRoutes.find(
+                route =>
+                  route.properties.id === id &&
+                  route.properties.createdBy === createdBy
+              )
+            );
+            setMapViewStatus(EMapViewStatus.routeInfo);
+          }
+        }}
+        toAccount={id => {
+          if (mapViewStatus === EMapViewStatus.clear) {
+            console.log('ID:', id);
+
+            toAccount(id);
           }
         }}
       />
@@ -268,6 +288,16 @@ function MapView({ toAccount, setBackHandler }) {
             setDescription('');
             setSelectedObstruction(null);
           }
+        }}
+      />
+
+      {/* Route Info */}
+      <RouteInfo
+        show={mapViewStatus === EMapViewStatus.routeInfo}
+        route={selectedDriverRoute}
+        onClose={() => {
+          setSelectedDriverRoute(null);
+          setMapViewStatus(EMapViewStatus.clear);
         }}
       />
     </View>

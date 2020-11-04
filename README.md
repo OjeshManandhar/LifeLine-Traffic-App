@@ -15,3 +15,7 @@ Traffic app (LifeLine Traffic App) for RATS (major project). Most of the codes a
 - **Environment Variable**
 
   Use _[react-native-dotenv](https://www.npmjs.com/package/react-native-dotenv)_
+
+## Attribution
+
+- _ambulance_ used in [ambulanceMarker.png](src/assets/images/map/ambulanceMarker.png) - Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)

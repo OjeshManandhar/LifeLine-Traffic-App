@@ -26,12 +26,6 @@ export const layerStyles = {
     iconAllowOverlap: true,
     iconImage: 'destinationMarker'
   },
-  pickedLocationMarker: {
-    iconSize: 0.07,
-    iconOffset: [0, -256],
-    iconAllowOverlap: true,
-    iconImage: 'pickedLocationMarker'
-  },
   obstructionMarker: {
     iconSize: 0.08,
     iconOffset: [0, -256],
@@ -44,24 +38,16 @@ export const layerStyles = {
     iconAllowOverlap: true,
     iconImage: 'trafficMarker'
   },
+  driverMarker: {
+    iconSize: 0.08,
+    iconOffset: [0, -256],
+    iconAllowOverlap: true,
+    iconImage: 'driverMarker'
+  },
   routeToDestination: {
     lineWidth: 6,
     lineOpacity: 1,
     lineCap: MapboxGL.LineCap.Round,
     lineJoin: MapboxGL.LineJoin.Round
-  },
-  routesToPickedLocation: {
-    lineWidth: 5,
-    lineOpacity: 1,
-    lineCap: MapboxGL.LineCap.Round,
-    lineJoin: MapboxGL.LineJoin.Round,
-    lineColor: Colors.routesToPickedLocation
-  },
-  selectedRouteToPickedLocation: {
-    lineWidth: 5,
-    lineOpacity: 1,
-    lineCap: MapboxGL.LineCap.Round,
-    lineJoin: MapboxGL.LineJoin.Round,
-    lineColor: Colors.selectedRouteToPickedLocation
   }
 };
