@@ -4,6 +4,7 @@ import { View, Image, Pressable, BackHandler } from 'react-native';
 // components
 import Map from 'components/Map';
 import Text from 'components/Text';
+import RouteInfo from 'components/RouteInfo';
 import AnimatedView from 'components/AnimatedView';
 import ObstructionInfo from 'components/ObstructionInfo';
 import AnimatedImageButton from 'components/AnimatedImageButton';
@@ -287,6 +288,16 @@ function MapView({ toAccount, setBackHandler }) {
             setDescription('');
             setSelectedObstruction(null);
           }
+        }}
+      />
+
+      {/* Route Info */}
+      <RouteInfo
+        show={mapViewStatus === EMapViewStatus.routeInfo}
+        route={selectedDriverRoute}
+        onClose={() => {
+          setSelectedDriverRoute(null);
+          setMapViewStatus(EMapViewStatus.clear);
         }}
       />
     </View>

@@ -33,6 +33,11 @@ export const ObstructionInfoText = {
   description: 'Obstruction information'
 };
 
+export const RouteInfoText = {
+  description: "Patient's Condition",
+  emergency: 'Emergency'
+};
+
 export const AccountViewText = {
   button: 'Log Out',
   accountType: {
