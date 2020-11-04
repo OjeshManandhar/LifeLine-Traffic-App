@@ -199,7 +199,6 @@ export const dummyRoute = [
       destination: {
         type: 'Feature',
         geometry: { coordinates: [85.538567, 27.618988], type: 'Point' },
-        relevance: 1,
         properties: {
           id: 'poi.326417559184',
           name: 'Kathmandu University',

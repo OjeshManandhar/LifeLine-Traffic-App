@@ -13,7 +13,7 @@ import destinationMarker from 'assets/images/map/destinationMarker.png';
 import obstructionMarker from 'assets/images/map/obstructionMarker.png';
 
 // global
-
+import Colors from 'global/colors';
 import { MapLayerIndex } from 'global/zIndex';
 
 // styles
@@ -160,6 +160,33 @@ function Map({
     );
   }, [trafficLocation]);
 
+  const renderDriverRoute = useCallback((routes, emergency) => {
+    const featureCollection = {
+      type: 'FeatureCollection',
+      features: routes
+    };
+
+    return (
+      <MapboxGL.ShapeSource
+        id={`routeToDestinationEmergency${emergency}-Source`}
+        shape={featureCollection}
+        onPress={data => console.log('route:', data.features[0])}
+      >
+        <MapboxGL.LineLayer
+          id={`routeToDestinationEmergency${emergency}-Layer`}
+          sourceID={`routeToDestinationEmergency${emergency}-Source`}
+          style={{
+            ...layerStyles.routeToDestination,
+            ...{
+              lineColor: Colors[`emergency_${emergency}`]
+            }
+          }}
+          layerIndex={MapLayerIndex.routeToDestination + emergency}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  }, []);
+
   const renderDriverDestination = useCallback(destinations => {
     const featureCollection = {
       type: 'FeatureCollection',
@@ -169,7 +196,6 @@ function Map({
     return (
       <MapboxGL.ShapeSource
         id='destinationMarker-Source'
-        key='destinationMarker-Source'
         shape={featureCollection}
         onPress={data => console.log('destination:', data.features[0])}
       >
@@ -192,7 +218,6 @@ function Map({
     return (
       <MapboxGL.ShapeSource
         id='startLocationMarker-Source'
-        key='startLocationMarker-Source'
         shape={featureCollection}
         onPress={data => console.log('destination:', data.features[0])}
       >
@@ -207,6 +232,11 @@ function Map({
   }, []);
 
   const parseDriverRoutes = useCallback(() => {
+    const routes = {
+      1: [],
+      2: [],
+      3: []
+    };
     const destinations = [];
     const startLocations = [];
 
@@ -226,15 +256,31 @@ function Map({
       return route;
     });
 
-    console.log('driverRoutes:', driverRoutes);
+    driverRoutes.forEach(route => {
+      if (route.properties.emergency === 1) {
+        routes[1].push(route);
+      } else if (route.properties.emergency === 2) {
+        routes[2].push(route);
+      } else if (route.properties.emergency === 3) {
+        routes[3].push(route);
+      }
+    });
 
     return (
       <React.Fragment>
-        {renderDriverDestination(destinations)}
-        {renderDriverStartLocation(startLocations)}
+        {routes[1].length > 0 && renderDriverRoute(routes[1], 1)}
+        {routes[2].length > 0 && renderDriverRoute(routes[2], 2)}
+        {routes[3].length > 0 && renderDriverRoute(routes[3], 3)}
+        {destinations.length > 0 && renderDriverDestination(destinations)}
+        {startLocations.length > 0 && renderDriverStartLocation(startLocations)}
       </React.Fragment>
     );
-  }, [driverRoutes, renderDriverDestination, renderDriverStartLocation]);
+  }, [
+    driverRoutes,
+    renderDriverRoute,
+    renderDriverDestination,
+    renderDriverStartLocation
+  ]);
 
   return (
     <MapboxGL.MapView
