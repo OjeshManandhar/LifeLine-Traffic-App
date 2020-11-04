@@ -92,21 +92,21 @@ function RouteInfo({ show, route, onClose }) {
 
         <Divider style={styles.divider} />
 
-        <React.Fragment>
+        <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionHeading}>
             {RouteInfoText.description}
           </Text>
 
           <ScrollView
             horizontal={true}
-            style={styles.descriptionContainer}
+            style={styles.descriptionTextContainer}
             showsHorizontalScrollIndicator={false}
           >
-            <Text style={styles.unEditableDescription} numberOfLines={1}>
+            <Text style={styles.descriptionText} numberOfLines={1}>
               {route.properties.description}
             </Text>
           </ScrollView>
-        </React.Fragment>
+        </View>
 
         <View style={styles.sliderContainer}>
           <Text style={styles.sliderText}>{RouteInfoText.emergency}</Text>
@@ -118,7 +118,6 @@ function RouteInfo({ show, route, onClose }) {
             minimumValue={1}
             maximumValue={3}
             value={route.properties.emergency}
-            onValueChange={() => setSliderValue(route.properties.emergency)}
             thumbTintColor={Colors[`emergency_${route.properties.emergency}`]}
             maximumTrackTintColor={Colors.maxTint}
             minimumTrackTintColor={

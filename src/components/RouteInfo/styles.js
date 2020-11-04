@@ -59,32 +59,32 @@ export default StyleSheet.create({
     height: 2,
     marginVertical: 2
   },
+  descriptionContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch'
+  },
   descriptionHeading: {
     color: Colors.secondaryText,
     fontSize: 12
   },
-  descriptionContainer: {
+  descriptionTextContainer: {
     padding: 2,
 
     marginBottom: 2,
 
     borderBottomWidth: 0.5,
-    borderBottomColor: Colors.greyBorder,
-
-    borderWidth: 2
+    borderBottomColor: Colors.greyBorder
   },
-  unEditableDescription: {
+  descriptionText: {
     fontSize: 18,
     lineHeight: 20,
     color: Colors.mainText
   },
   sliderContainer: {
-    flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'stretch',
-
-    marginRight: 10
+    alignItems: 'stretch'
   },
   sliderText: {
     fontSize: 12,
@@ -95,6 +95,6 @@ export default StyleSheet.create({
     color: Colors.secondaryText
   },
   slider: {
-    maxWidth: 250
+    width: '100%'
   }
 });
