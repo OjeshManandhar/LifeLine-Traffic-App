@@ -21,6 +21,7 @@ import styles, { layerStyles } from './styles';
 function Map({
   isPicking,
   toAccount,
+  driverRoutes,
   driverLocation,
   obstructionList,
   trafficLocation,

@@ -20,82 +20,19 @@ import { EMapViewStatus } from 'global/enum';
 // styles
 import styles, { topContainerHeight } from './styles';
 
-const dummyObstruction = [
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [85.3182293, 27.6945427]
-    },
-    properties: {
-      id: 1,
-      createdBy: 'qwe',
-      name: 'Maitighar',
-      location: 'Maitighar, Kathmandu, Bagmati, Nepal',
-      description: 'normal day jam'
-    }
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [85.3165243, 27.6834457]
-    },
-    properties: {
-      id: 2,
-      createdBy: 'qwe',
-      name: 'Hotel Himalaya',
-      location: 'Hotel Himalaya, Lalitpur, Bagmati, Nepal',
-      description: 'Accident'
-    }
-  }
-];
-
-const dummyDriverLocations = [
-  {
-    type: 'Feature',
-    geometry: { type: 'Point', coordinates: [85.3, 27.6] },
-    properties: {
-      id: 'qwertyuiop'
-    }
-  },
-  {
-    type: 'Feature',
-    geometry: { type: 'Point', coordinates: [85.4, 27.5] },
-    properties: {
-      id: 'asdfghjkl'
-    }
-  }
-];
-
-const dummyTrafficLocations = [
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [85.3187843, 27.6949837]
-    },
-    properties: {
-      id: 1
-    }
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [85.3341016, 27.6883948]
-    },
-    properties: {
-      id: 2
-    }
-  }
-];
+import {
+  dummyRoute,
+  dummyObstruction,
+  dummyDriverLocations,
+  dummyTrafficLocations
+} from 'global/dummyData';
 
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
 
   const [isPicking, setIsPicking] = useState(false);
   const [description, setDescription] = useState('');
+  const [driverRoutes, setDriverRoutes] = useState(dummyRoute);
   const [driverLocation, setDriverLocation] = useState(dummyDriverLocations);
   const [trafficLocation, setTrafficLocation] = useState(dummyTrafficLocations);
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
@@ -140,6 +77,7 @@ function MapView({ toAccount, setBackHandler }) {
     <View style={styles.container}>
       <Map
         isPicking={isPicking}
+        driverRoutes={driverRoutes}
         driverLocation={driverLocation}
         trafficLocation={trafficLocation}
         pickedCoordinate={pickedCoordinate}
