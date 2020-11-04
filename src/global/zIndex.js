@@ -33,9 +33,9 @@ export const MapLayerIndex = {
   // so make other below 125
 
   routeToDestination: 105,
-  driverMarker: 110,
-  trafficMarker: 115,
+  startLocationMarker: 110,
+  destinationMarker: 115,
   obstructionMarker: 120,
-  startLocationMarker: 124,
-  destinationMarker: 125
+  trafficMarker: 124,
+  driverMarker: 125
 };

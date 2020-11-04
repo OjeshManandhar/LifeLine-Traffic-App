@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { PermissionsAndroid } from 'react-native';
 
 // packages
+import { point } from '@turf/helpers';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 // assets
@@ -159,6 +160,82 @@ function Map({
     );
   }, [trafficLocation]);
 
+  const renderDriverDestination = useCallback(destinations => {
+    const featureCollection = {
+      type: 'FeatureCollection',
+      features: destinations
+    };
+
+    return (
+      <MapboxGL.ShapeSource
+        id='destinationMarker-Source'
+        key='destinationMarker-Source'
+        shape={featureCollection}
+        onPress={data => console.log('destination:', data.features[0])}
+      >
+        <MapboxGL.SymbolLayer
+          style={layerStyles.destinationMarker}
+          id='destinationMarker-Layer'
+          sourceID='destinationMarker-Source'
+          layerIndex={MapLayerIndex.destinationMarker}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  }, []);
+
+  const renderDriverStartLocation = useCallback(startLocations => {
+    const featureCollection = {
+      type: 'FeatureCollection',
+      features: startLocations
+    };
+
+    return (
+      <MapboxGL.ShapeSource
+        id='startLocationMarker-Source'
+        key='startLocationMarker-Source'
+        shape={featureCollection}
+        onPress={data => console.log('destination:', data.features[0])}
+      >
+        <MapboxGL.SymbolLayer
+          style={layerStyles.startLocationMarker}
+          id='startLocationMarker-Layer'
+          sourceID='startLocationMarker-Source'
+          layerIndex={MapLayerIndex.startLocationMarker}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  }, []);
+
+  const parseDriverRoutes = useCallback(() => {
+    const destinations = [];
+    const startLocations = [];
+
+    driverRoutes.forEach(route => {
+      const destination = { ...route.properties.destination };
+      const startLocation = point(route.properties.startLocation, {
+        id: route.properties.id,
+        createdBy: route.properties.createdBy
+      });
+
+      destination.properties.id = route.properties.id;
+      destination.properties.createdBy = route.properties.createdBy;
+
+      destinations.push(destination);
+      startLocations.push(startLocation);
+
+      return route;
+    });
+
+    console.log('driverRoutes:', driverRoutes);
+
+    return (
+      <React.Fragment>
+        {renderDriverDestination(destinations)}
+        {renderDriverStartLocation(startLocations)}
+      </React.Fragment>
+    );
+  }, [driverRoutes, renderDriverDestination, renderDriverStartLocation]);
+
   return (
     <MapboxGL.MapView
       style={styles.container}
@@ -197,6 +274,8 @@ function Map({
       {driverLocation && renderDriverMarker()}
 
       {trafficLocation && renderTrafficMarker()}
+
+      {driverRoutes && parseDriverRoutes()}
     </MapboxGL.MapView>
   );
 }
