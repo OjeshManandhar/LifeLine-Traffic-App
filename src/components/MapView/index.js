@@ -47,9 +47,30 @@ function MapView({ toAccount, setBackHandler }) {
   const [mapViewStatus, setMapViewStatus] = useState(EMapViewStatus.clear);
 
   function clearPickedCoordinate() {
+    setDescription('');
     setIsPicking(false);
     setPickedCoordintate(null);
   }
+
+  const updateObstructionInfo = useCallback(() => {
+    const index = createdObstructionList.findIndex(
+      obs => obs.properties.id === selectedObstruction.properties.id
+    );
+
+    const newList = createdObstructionList;
+    newList[index].properties.description = description;
+
+    console.log('Updated Obstruction:', newList[index]);
+
+    /* PATCH to server */
+
+    setCreatedObstructionList(newList);
+  }, [
+    description,
+    selectedObstruction,
+    createdObstructionList,
+    setCreatedObstructionList
+  ]);
 
   // Back handler
   const handleBackButton = useCallback(() => {
@@ -62,13 +83,29 @@ function MapView({ toAccount, setBackHandler }) {
         clearPickedCoordinate();
         break;
       case EMapViewStatus.obstructionInfo:
+        const des = descriptionRef.current;
+        if (des && des.isFocused()) {
+          des.blur();
+          updateObstructionInfo();
+        }
+
         setMapViewStatus(EMapViewStatus.clear);
+        setSelectedObstruction(null);
+        setDescription('');
         break;
       case EMapViewStatus.routeInfo:
+        setSelectedDriverRoute(null);
         setMapViewStatus(EMapViewStatus.clear);
         break;
     }
-  }, [mapViewStatus, setMapViewStatus]);
+  }, [
+    mapViewStatus,
+    setDescription,
+    setMapViewStatus,
+    updateObstructionInfo,
+    setSelectedDriverRoute,
+    setSelectedObstruction
+  ]);
 
   useEffect(() => setBackHandler(() => handleBackButton), [
     setBackHandler,
@@ -223,27 +260,16 @@ function MapView({ toAccount, setBackHandler }) {
         newObstruction={mapViewStatus === EMapViewStatus.addingObstruction}
         updateObstructionInfo={
           mapViewStatus === EMapViewStatus.obstructionInfo
-            ? () => {
-                const index = createdObstructionList.findIndex(
-                  obs => obs.properties.id === selectedObstruction.properties.id
-                );
-
-                const newList = createdObstructionList;
-                newList[index].properties.description = description;
-
-                console.log('Updated Obstruction:', newList[index]);
-                /* PATCH to server */
-
-                setCreatedObstructionList(newList);
-              }
+            ? updateObstructionInfo
             : null
         }
         onClose={() => {
           setMapViewStatus(EMapViewStatus.clear);
 
-          setDescription('');
-
-          if (mapViewStatus === EMapViewStatus.obstructionInfo) {
+          if (mapViewStatus === EMapViewStatus.addingObstruction) {
+            clearPickedCoordinate();
+          } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
+            setDescription('');
             setSelectedObstruction(null);
           }
         }}
