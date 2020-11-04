@@ -36,6 +36,7 @@ function MapView({ toAccount, setBackHandler }) {
   const [driverLocation, setDriverLocation] = useState(dummyDriverLocations);
   const [trafficLocation, setTrafficLocation] = useState(dummyTrafficLocations);
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
+  const [selectedDriverRoute, setSelectedDriverRoute] = useState(null);
   const [selectedObstruction, setSelectedObstruction] = useState(null);
   const [createdObstructionList, setCreatedObstructionList] = useState([]);
   const [fetchedObstructionList, setFetchedObstructionList] = useState(
@@ -94,6 +95,35 @@ function MapView({ toAccount, setBackHandler }) {
             setMapViewStatus(EMapViewStatus.clear);
             setDescription('');
             setSelectedObstruction(null);
+          }
+        }}
+        toggleRouteInfo={(id, createdBy) => {
+          if (mapViewStatus === EMapViewStatus.routeInfo) {
+            if (
+              selectedDriverRoute &&
+              id === selectedDriverRoute.properties.id &&
+              createdBy === selectedDriverRoute.properties.createdBy
+            ) {
+              setSelectedDriverRoute(null);
+              setMapViewStatus(EMapViewStatus.clear);
+            } else {
+              setSelectedDriverRoute(
+                driverRoutes.find(
+                  route =>
+                    route.properties.id === id &&
+                    route.properties.createdBy === createdBy
+                )
+              );
+            }
+          } else if (mapViewStatus === EMapViewStatus.clear) {
+            setSelectedDriverRoute(
+              driverRoutes.find(
+                route =>
+                  route.properties.id === id &&
+                  route.properties.createdBy === createdBy
+              )
+            );
+            setMapViewStatus(EMapViewStatus.routeInfo);
           }
         }}
         toAccount={id => {

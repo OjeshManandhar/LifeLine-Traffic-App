@@ -26,6 +26,7 @@ function Map({
   driverLocation,
   obstructionList,
   trafficLocation,
+  toggleRouteInfo,
   pickedCoordinate,
   setPickedCoordintate,
   toggleObstructionInfo,
@@ -160,76 +161,100 @@ function Map({
     );
   }, [trafficLocation]);
 
-  const renderDriverRoute = useCallback((routes, emergency) => {
-    const featureCollection = {
-      type: 'FeatureCollection',
-      features: routes
-    };
+  const renderDriverRoute = useCallback(
+    (routes, emergency) => {
+      const featureCollection = {
+        type: 'FeatureCollection',
+        features: routes
+      };
 
-    return (
-      <MapboxGL.ShapeSource
-        id={`routeToDestinationEmergency${emergency}-Source`}
-        shape={featureCollection}
-        onPress={data => console.log('route:', data.features[0])}
-      >
-        <MapboxGL.LineLayer
-          id={`routeToDestinationEmergency${emergency}-Layer`}
-          sourceID={`routeToDestinationEmergency${emergency}-Source`}
-          style={{
-            ...layerStyles.routeToDestination,
-            ...{
-              lineColor: Colors[`emergency_${emergency}`]
-            }
-          }}
-          layerIndex={MapLayerIndex.routeToDestination + emergency}
-        />
-      </MapboxGL.ShapeSource>
-    );
-  }, []);
+      return (
+        <MapboxGL.ShapeSource
+          id={`routeToDestinationEmergency${emergency}-Source`}
+          shape={featureCollection}
+          onPress={data =>
+            toggleRouteInfo(
+              data.features[0].properties.id,
+              data.features[0].properties.createdBy
+            )
+          }
+        >
+          <MapboxGL.LineLayer
+            id={`routeToDestinationEmergency${emergency}-Layer`}
+            sourceID={`routeToDestinationEmergency${emergency}-Source`}
+            style={{
+              ...layerStyles.routeToDestination,
+              ...{
+                lineColor: Colors[`emergency_${emergency}`]
+              }
+            }}
+            layerIndex={MapLayerIndex.routeToDestination + emergency}
+          />
+        </MapboxGL.ShapeSource>
+      );
+    },
+    [toggleRouteInfo]
+  );
 
-  const renderDriverDestination = useCallback(destinations => {
-    const featureCollection = {
-      type: 'FeatureCollection',
-      features: destinations
-    };
+  const renderDriverDestination = useCallback(
+    destinations => {
+      const featureCollection = {
+        type: 'FeatureCollection',
+        features: destinations
+      };
 
-    return (
-      <MapboxGL.ShapeSource
-        id='destinationMarker-Source'
-        shape={featureCollection}
-        onPress={data => console.log('destination:', data.features[0])}
-      >
-        <MapboxGL.SymbolLayer
-          style={layerStyles.destinationMarker}
-          id='destinationMarker-Layer'
-          sourceID='destinationMarker-Source'
-          layerIndex={MapLayerIndex.destinationMarker}
-        />
-      </MapboxGL.ShapeSource>
-    );
-  }, []);
+      return (
+        <MapboxGL.ShapeSource
+          id='destinationMarker-Source'
+          shape={featureCollection}
+          onPress={data =>
+            toggleRouteInfo(
+              data.features[0].properties.id,
+              data.features[0].properties.createdBy
+            )
+          }
+        >
+          <MapboxGL.SymbolLayer
+            style={layerStyles.destinationMarker}
+            id='destinationMarker-Layer'
+            sourceID='destinationMarker-Source'
+            layerIndex={MapLayerIndex.destinationMarker}
+          />
+        </MapboxGL.ShapeSource>
+      );
+    },
+    [toggleRouteInfo]
+  );
 
-  const renderDriverStartLocation = useCallback(startLocations => {
-    const featureCollection = {
-      type: 'FeatureCollection',
-      features: startLocations
-    };
+  const renderDriverStartLocation = useCallback(
+    startLocations => {
+      const featureCollection = {
+        type: 'FeatureCollection',
+        features: startLocations
+      };
 
-    return (
-      <MapboxGL.ShapeSource
-        id='startLocationMarker-Source'
-        shape={featureCollection}
-        onPress={data => console.log('destination:', data.features[0])}
-      >
-        <MapboxGL.SymbolLayer
-          style={layerStyles.startLocationMarker}
-          id='startLocationMarker-Layer'
-          sourceID='startLocationMarker-Source'
-          layerIndex={MapLayerIndex.startLocationMarker}
-        />
-      </MapboxGL.ShapeSource>
-    );
-  }, []);
+      return (
+        <MapboxGL.ShapeSource
+          id='startLocationMarker-Source'
+          shape={featureCollection}
+          onPress={data =>
+            toggleRouteInfo(
+              data.features[0].properties.id,
+              data.features[0].properties.createdBy
+            )
+          }
+        >
+          <MapboxGL.SymbolLayer
+            style={layerStyles.startLocationMarker}
+            id='startLocationMarker-Layer'
+            sourceID='startLocationMarker-Source'
+            layerIndex={MapLayerIndex.startLocationMarker}
+          />
+        </MapboxGL.ShapeSource>
+      );
+    },
+    [toggleRouteInfo]
+  );
 
   const parseDriverRoutes = useCallback(() => {
     const routes = {
