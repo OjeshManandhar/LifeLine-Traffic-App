@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { View, Image, Pressable, BackHandler } from 'react-native';
 
+// packages
+import io from 'socket.io-client';
+
 // components
 import Map from 'components/Map';
 import Text from 'components/Text';
@@ -15,11 +18,14 @@ import account from 'assets/images/dead.png';
 import addButton from 'assets/images/addButton.png';
 
 // global
-import { MapViewText } from 'global/strings';
 import { EMapViewStatus } from 'global/enum';
+import { SocketEvent, MapViewText } from 'global/strings';
 
 // styles
 import styles, { topContainerHeight } from './styles';
+
+// env
+import { SOCKET_ENDPOINT } from '@env';
 
 import {
   dummyRoute,
@@ -29,6 +35,8 @@ import {
 } from 'global/dummyData';
 
 function MapView({ toAccount, setBackHandler }) {
+  const socket = io(SOCKET_ENDPOINT);
+
   const descriptionRef = useRef(null);
 
   const [isPicking, setIsPicking] = useState(false);
@@ -43,6 +51,32 @@ function MapView({ toAccount, setBackHandler }) {
 
   const [mapViewStatus, setMapViewStatus] = useState(EMapViewStatus.clear);
 
+  // Socket
+  useEffect(() => {
+    socket.on(SocketEvent.driverRoutesAdd, data => setDriverRoutes(data));
+    socket.on(SocketEvent.driverRoutesDelete, data => setDriverRoutes(data));
+
+    socket.on(SocketEvent.driverLocationsAdd, data => setDriverLocation(data));
+    socket.on(SocketEvent.driverLocationsDelete, data =>
+      setDriverLocation(data)
+    );
+
+    socket.on(SocketEvent.obstructionsAdd, data => setObstructionList(data));
+    socket.on(SocketEvent.obstructionsDelete, data => setObstructionList(data));
+
+    socket.on(SocketEvent.trafficLocationsAdd, data =>
+      setTrafficLocation(data)
+    );
+    socket.on(SocketEvent.trafficLocationsDelete, data =>
+      setTrafficLocation(data)
+    );
+  }, [
+    setDriverRoutes,
+    setDriverLocation,
+    setObstructionList,
+    setTrafficLocation
+  ]);
+
   function clearPickedCoordinate() {
     setDescription('');
     setIsPicking(false);
@@ -55,7 +89,9 @@ function MapView({ toAccount, setBackHandler }) {
 
     console.log('Updated Obstruction:', newObstruction);
     /* PATCH to server */
+    socket.emit(SocketEvent.obstructionsAdd, newObstruction);
 
+    // Remove this after server connection
     const index = obstructionList.findIndex(
       obs =>
         obs.properties.id === selectedObstruction.properties.id &&
@@ -280,6 +316,7 @@ function MapView({ toAccount, setBackHandler }) {
 
             console.log('Created obstruction:', obstruction);
             /* POST obstruction to server */
+            socket.emit(SocketEvent.obstructionsAdd, obstruction);
 
             // Remove this after server connection
             setObstructionList(curList => {
@@ -295,6 +332,7 @@ function MapView({ toAccount, setBackHandler }) {
           } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
             console.log('Delete obstruction data:', selectedObstruction);
             /* DELTE obstruction to server */
+            socket.emit(SocketEvent.obstructionsDelete, selectedObstruction);
 
             // Remove this after server connection
             setObstructionList(curList =>

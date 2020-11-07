@@ -1,3 +1,17 @@
+export const SocketEvent = {
+  driverRoutesAdd: 'driver-routes-add',
+  driverRoutesDelete: 'driver-routes-delete',
+
+  driverLocationsAdd: 'driver-locations-add',
+  driverLocationsDelete: 'driver-locations-delete',
+
+  obstructionsAdd: 'obstructions-add',
+  obstructionsDelete: 'obstructions-delete',
+
+  trafficLocationsAdd: 'traffic-locations-add',
+  trafficLocationsDelete: 'traffic-locations-delete'
+};
+
 export const LoginText = {
   button: 'Log In',
   form: {
