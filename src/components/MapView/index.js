@@ -50,6 +50,12 @@ function MapView({ toAccount, setBackHandler }) {
   }
 
   const updateObstructionInfo = useCallback(() => {
+    const newObstruction = { ...selectedObstruction };
+    newObstruction.properties.description = description;
+
+    console.log('Updated Obstruction:', newObstruction);
+    /* PATCH to server */
+
     const index = obstructionList.findIndex(
       obs =>
         obs.properties.id === selectedObstruction.properties.id &&
@@ -57,12 +63,7 @@ function MapView({ toAccount, setBackHandler }) {
     );
 
     const newList = obstructionList;
-    newList[index].properties.description = description;
-
-    console.log('Updated Obstruction:', newList[index]);
-
-    /* PATCH to server */
-
+    newList[index] = newObstruction;
     setObstructionList(newList);
   }, [description, obstructionList, setObstructionList, selectedObstruction]);
 
@@ -292,9 +293,7 @@ function MapView({ toAccount, setBackHandler }) {
             clearPickedCoordinate();
             setMapViewStatus(EMapViewStatus.clear);
           } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
-            // delete obstruction
             console.log('Delete obstruction data:', selectedObstruction);
-
             /* DELTE obstruction to server */
 
             // Remove this after server connection
