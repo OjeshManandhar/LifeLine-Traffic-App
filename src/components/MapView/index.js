@@ -34,9 +34,15 @@ import {
   dummyTrafficLocations
 } from 'global/dummyData';
 
-function MapView({ toAccount, setBackHandler }) {
-  const socket = io(SOCKET_ENDPOINT);
+const socket = io(SOCKET_ENDPOINT, {
+  transports: ['websocket'] /* Needed for RN */,
+  reconnection: false /* Remove this while using while with server */,
+  // reconnection: true, /* Un-comment this while using with server */
+  reconnectionDelay: 500,
+  reconnectionAttempts: Infinity
+});
 
+function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
 
   const [isPicking, setIsPicking] = useState(false);
