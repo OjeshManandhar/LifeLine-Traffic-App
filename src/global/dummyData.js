@@ -3,11 +3,9 @@ export const dummyObstruction = [
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordinates: [85.3182293, 27.6945427]
+      coordinates: [85.31822897493839, 27.694542968732563]
     },
     properties: {
-      id: 1,
-      createdBy: 'qwe',
       name: 'Maitighar',
       location: 'Maitighar, Kathmandu, Bagmati, Nepal',
       description: 'normal day jam'
@@ -17,11 +15,9 @@ export const dummyObstruction = [
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordinates: [85.3165243, 27.6834457]
+      coordinates: [85.31651973724365, 27.68344257766637]
     },
     properties: {
-      id: 2,
-      createdBy: 'qwe',
       name: 'Hotel Himalaya',
       location: 'Hotel Himalaya, Lalitpur, Bagmati, Nepal',
       description: 'Accident'
