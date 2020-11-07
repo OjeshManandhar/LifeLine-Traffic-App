@@ -35,14 +35,11 @@ function MapView({ toAccount, setBackHandler }) {
   const [description, setDescription] = useState('');
   const [driverRoutes, setDriverRoutes] = useState(dummyRoute);
   const [driverLocation, setDriverLocation] = useState(dummyDriverLocations);
+  const [obstructionList, setObstructionList] = useState(dummyObstruction);
   const [trafficLocation, setTrafficLocation] = useState(dummyTrafficLocations);
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
   const [selectedDriverRoute, setSelectedDriverRoute] = useState(null);
   const [selectedObstruction, setSelectedObstruction] = useState(null);
-  const [createdObstructionList, setCreatedObstructionList] = useState([]);
-  const [fetchedObstructionList, setFetchedObstructionList] = useState(
-    dummyObstruction
-  );
 
   const [mapViewStatus, setMapViewStatus] = useState(EMapViewStatus.clear);
 
@@ -53,24 +50,22 @@ function MapView({ toAccount, setBackHandler }) {
   }
 
   const updateObstructionInfo = useCallback(() => {
-    const index = createdObstructionList.findIndex(
-      obs => obs.properties.id === selectedObstruction.properties.id
-    );
+    const newObstruction = { ...selectedObstruction };
+    newObstruction.properties.description = description;
 
-    const newList = createdObstructionList;
-    newList[index].properties.description = description;
-
-    console.log('Updated Obstruction:', newList[index]);
-
+    console.log('Updated Obstruction:', newObstruction);
     /* PATCH to server */
 
-    setCreatedObstructionList(newList);
-  }, [
-    description,
-    selectedObstruction,
-    createdObstructionList,
-    setCreatedObstructionList
-  ]);
+    const index = obstructionList.findIndex(
+      obs =>
+        obs.properties.id === selectedObstruction.properties.id &&
+        obs.properties.createdBy === selectedObstruction.properties.createdBy
+    );
+
+    const newList = obstructionList;
+    newList[index] = newObstruction;
+    setObstructionList(newList);
+  }, [description, obstructionList, setObstructionList, selectedObstruction]);
 
   // Back handler
   const handleBackButton = useCallback(() => {
@@ -118,11 +113,11 @@ function MapView({ toAccount, setBackHandler }) {
         isPicking={isPicking}
         driverRoutes={driverRoutes}
         driverLocation={driverLocation}
+        obstructionList={obstructionList}
         trafficLocation={trafficLocation}
         pickedCoordinate={pickedCoordinate}
         setPickedCoordintate={setPickedCoordintate}
         setSelectedObstruction={setSelectedObstruction}
-        obstructionList={[...createdObstructionList, ...fetchedObstructionList]}
         toggleObstructionInfo={(obstruction, update) => {
           if (update) {
             setDescription(obstruction.properties.description);
@@ -278,35 +273,38 @@ function MapView({ toAccount, setBackHandler }) {
             const obstruction = { ...data };
             obstruction.properties = {
               ...obstruction.properties,
+              createdBy: 'DeadSkull',
               description: description,
-              createdBy: 'DeadSkull'
+              id: obstructionList.length
             };
 
-            setCreatedObstructionList(curList => {
-              const newList = curList;
-              obstruction.properties.id = curList.length;
+            console.log('Created obstruction:', obstruction);
+            /* POST obstruction to server */
+
+            // Remove this after server connection
+            setObstructionList(curList => {
+              const newList = [...curList];
 
               newList.push(obstruction);
 
               return newList;
             });
 
-            console.log('Created obstruction:', obstruction);
-            /* POST obstruction to server */
-
-            setDescription('');
-            setIsPicking(false);
-            setPickedCoordintate(null);
+            clearPickedCoordinate();
             setMapViewStatus(EMapViewStatus.clear);
           } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
-            // delete obstruction
             console.log('Delete obstruction data:', selectedObstruction);
-
             /* DELTE obstruction to server */
 
-            setCreatedObstructionList(curList =>
+            // Remove this after server connection
+            setObstructionList(curList =>
               curList.filter(
-                obs => obs.properties.id !== selectedObstruction.properties.id
+                obs =>
+                  !(
+                    obs.properties.id === selectedObstruction.properties.id &&
+                    obs.properties.createdBy ===
+                      selectedObstruction.properties.createdBy
+                  )
               )
             );
 
