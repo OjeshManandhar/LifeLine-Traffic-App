@@ -52,10 +52,8 @@ function MapView({ toAccount, setBackHandler }) {
   const updateObstructionInfo = useCallback(() => {
     const index = obstructionList.findIndex(
       obs =>
-        obs.geometry.coordinates[0] ===
-          selectedObstruction.geometry.coordinates[0] &&
-        obs.geometry.coordinates[1] ===
-          selectedObstruction.geometry.coordinates[1]
+        obs.properties.id === selectedObstruction.properties.id &&
+        obs.properties.createdBy === selectedObstruction.properties.createdBy
     );
 
     const newList = obstructionList;
@@ -274,7 +272,9 @@ function MapView({ toAccount, setBackHandler }) {
             const obstruction = { ...data };
             obstruction.properties = {
               ...obstruction.properties,
-              description: description
+              createdBy: 'DeadSkull',
+              description: description,
+              id: obstructionList.length
             };
 
             console.log('Created obstruction:', obstruction);
@@ -299,22 +299,14 @@ function MapView({ toAccount, setBackHandler }) {
 
             // Remove this after server connection
             setObstructionList(curList =>
-              curList.filter(obs => {
-                console.log(
-                  obs.geometry.coordinates,
-                  selectedObstruction.geometry.coordinates
-                );
-
-                const result =
-                  obs.geometry.coordinates[0] ===
-                    selectedObstruction.geometry.coordinates[0] &&
-                  obs.geometry.coordinates[1] ===
-                    selectedObstruction.geometry.coordinates[1];
-
-                console.log('result:', result);
-
-                return !result;
-              })
+              curList.filter(
+                obs =>
+                  !(
+                    obs.properties.id === selectedObstruction.properties.id &&
+                    obs.properties.createdBy ===
+                      selectedObstruction.properties.createdBy
+                  )
+              )
             );
 
             setMapViewStatus(EMapViewStatus.clear);

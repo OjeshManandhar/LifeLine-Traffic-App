@@ -92,10 +92,10 @@ function Map({
               toggleObstructionInfo(data.features[0]);
             } else {
               if (
-                currentObstruction.geometry.coordinates[0] ===
-                  data.features[0].geometry.coordinates[0] &&
-                currentObstruction.geometry.coordinates[1] ===
-                  data.features[0].geometry.coordinates[1]
+                currentObstruction.properties.id ===
+                  data.features[0].properties.id &&
+                currentObstruction.properties.createdBy ===
+                  data.features[0].properties.createdBy
               ) {
                 toggleObstructionInfo(data.features[0]);
               } else {

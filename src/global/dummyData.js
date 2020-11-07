@@ -6,6 +6,8 @@ export const dummyObstruction = [
       coordinates: [85.31822897493839, 27.694542968732563]
     },
     properties: {
+      id: 1,
+      createdBy: 'qwe',
       name: 'Maitighar',
       location: 'Maitighar, Kathmandu, Bagmati, Nepal',
       description: 'normal day jam'
@@ -18,6 +20,8 @@ export const dummyObstruction = [
       coordinates: [85.31651973724365, 27.68344257766637]
     },
     properties: {
+      id: 2,
+      createdBy: 'qwe',
       name: 'Hotel Himalaya',
       location: 'Hotel Himalaya, Lalitpur, Bagmati, Nepal',
       description: 'Accident'
