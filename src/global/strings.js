@@ -1,15 +1,15 @@
-export const SocketEvent = {
-  driverRoutesAdd: 'driver-routes-add',
-  driverRoutesDelete: 'driver-routes-delete',
-
-  driverLocationsAdd: 'driver-locations-add',
-  driverLocationsDelete: 'driver-locations-delete',
-
-  obstructionsAdd: 'obstructions-add',
-  obstructionsDelete: 'obstructions-delete',
-
-  trafficLocationsAdd: 'traffic-locations-add',
-  trafficLocationsDelete: 'traffic-locations-delete'
+export const SocketText = {
+  operations: {
+    create: 'create',
+    delete: 'delete',
+    update: 'update'
+  },
+  events: {
+    driverRoutes: 'driver-routes',
+    driverLocations: 'driver-locations',
+    obstructions: 'obstructions',
+    trafficLocations: 'traffic-locations'
+  }
 };
 
 export const LoginText = {

@@ -19,7 +19,7 @@ import addButton from 'assets/images/addButton.png';
 
 // global
 import { EMapViewStatus } from 'global/enum';
-import { SocketEvent, MapViewText } from 'global/strings';
+import { SocketText, MapViewText } from 'global/strings';
 
 // styles
 import styles, { topContainerHeight } from './styles';
@@ -59,21 +59,15 @@ function MapView({ toAccount, setBackHandler }) {
 
   // Socket
   useEffect(() => {
-    socket.on(SocketEvent.driverRoutesAdd, data => setDriverRoutes(data));
-    socket.on(SocketEvent.driverRoutesDelete, data => setDriverRoutes(data));
+    socket.on(SocketText.events.driverRoutes, data => setDriverRoutes(data));
 
-    socket.on(SocketEvent.driverLocationsAdd, data => setDriverLocation(data));
-    socket.on(SocketEvent.driverLocationsDelete, data =>
+    socket.on(SocketText.events.driverLocations, data =>
       setDriverLocation(data)
     );
 
-    socket.on(SocketEvent.obstructionsAdd, data => setObstructionList(data));
-    socket.on(SocketEvent.obstructionsDelete, data => setObstructionList(data));
+    socket.on(SocketText.events.obstructions, data => setObstructionList(data));
 
-    socket.on(SocketEvent.trafficLocationsAdd, data =>
-      setTrafficLocation(data)
-    );
-    socket.on(SocketEvent.trafficLocationsDelete, data =>
+    socket.on(SocketText.events.trafficLocations, data =>
       setTrafficLocation(data)
     );
   }, [
@@ -95,7 +89,10 @@ function MapView({ toAccount, setBackHandler }) {
 
     console.log('Updated Obstruction:', newObstruction);
     /* PATCH to server */
-    socket.emit(SocketEvent.obstructionsAdd, newObstruction);
+    socket.emit(SocketText.events.obstructions, {
+      data: newObstruction,
+      operation: SocketText.operations.update
+    });
 
     // Remove this after server connection
     const index = obstructionList.findIndex(
@@ -322,7 +319,10 @@ function MapView({ toAccount, setBackHandler }) {
 
             console.log('Created obstruction:', obstruction);
             /* POST obstruction to server */
-            socket.emit(SocketEvent.obstructionsAdd, obstruction);
+            socket.emit(SocketText.events.obstructions, {
+              data: obstruction,
+              operation: SocketText.operations.create
+            });
 
             // Remove this after server connection
             setObstructionList(curList => {
@@ -338,7 +338,10 @@ function MapView({ toAccount, setBackHandler }) {
           } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
             console.log('Delete obstruction data:', selectedObstruction);
             /* DELTE obstruction to server */
-            socket.emit(SocketEvent.obstructionsDelete, selectedObstruction);
+            socket.emit(SocketText.events.obstructions, {
+              data: selectedObstruction,
+              operation: SocketText.operations.delete
+            });
 
             // Remove this after server connection
             setObstructionList(curList =>
