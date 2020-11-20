@@ -29,6 +29,14 @@ export const LoginText = {
   }
 };
 
+export const GPSPermission = {
+  title: 'App GPS Permission',
+  message:
+    'App needs access to your location (GPS & Internet) so we can pin-point your exact location.',
+  buttonNegative: 'No, thanks',
+  buttonPosition: 'OK'
+};
+
 export const MapScreenText = {
   logoutAlert: {
     title: 'Log Out',
