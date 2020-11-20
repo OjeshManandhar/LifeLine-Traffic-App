@@ -1,9 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { View, Image, Pressable, BackHandler } from 'react-native';
 
-// packages
-import io from 'socket.io-client';
-
 // components
 import Map from 'components/Map';
 import Text from 'components/Text';
@@ -17,6 +14,9 @@ import back from 'assets/images/back.png';
 import account from 'assets/images/dead.png';
 import addButton from 'assets/images/addButton.png';
 
+// utils
+import socket from 'utils/socket';
+
 // global
 import { EMapViewStatus } from 'global/enum';
 import { SocketText, MapViewText } from 'global/strings';
@@ -24,23 +24,12 @@ import { SocketText, MapViewText } from 'global/strings';
 // styles
 import styles, { topContainerHeight } from './styles';
 
-// env
-import { SOCKET_ENDPOINT } from '@env';
-
 import {
   dummyRoute,
   dummyObstruction,
   dummyDriverLocations,
   dummyTrafficLocations
 } from 'global/dummyData';
-
-const socket = io(SOCKET_ENDPOINT, {
-  transports: ['websocket'] /* Needed for RN */,
-  reconnection: false /* Remove this while using while with server */,
-  // reconnection: true, /* Un-comment this while using with server */
-  reconnectionDelay: 500,
-  reconnectionAttempts: Infinity
-});
 
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
