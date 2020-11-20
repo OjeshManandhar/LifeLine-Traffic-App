@@ -5,10 +5,10 @@ export const SocketText = {
     update: 'update'
   },
   events: {
-    driverRoutes: 'driver-routes',
-    driverLocations: 'driver-locations',
+    driverLocation: 'driver_gps',
     obstructions: 'obstructions',
-    trafficLocations: 'traffic-locations'
+    driverRoutes: 'driver_routes',
+    trafficLocation: 'traffic_gps'
   }
 };
 

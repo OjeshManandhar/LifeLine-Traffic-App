@@ -60,14 +60,11 @@ function MapView({ toAccount, setBackHandler }) {
   // Socket
   useEffect(() => {
     socket.on(SocketText.events.driverRoutes, data => setDriverRoutes(data));
-
-    socket.on(SocketText.events.driverLocations, data =>
+    socket.on(SocketText.events.obstructions, data => setObstructionList(data));
+    socket.on(SocketText.events.driverLocation, data =>
       setDriverLocation(data)
     );
-
-    socket.on(SocketText.events.obstructions, data => setObstructionList(data));
-
-    socket.on(SocketText.events.trafficLocations, data =>
+    socket.on(SocketText.events.trafficLocation, data =>
       setTrafficLocation(data)
     );
   }, [
@@ -90,7 +87,7 @@ function MapView({ toAccount, setBackHandler }) {
     console.log('Updated Obstruction:', newObstruction);
     /* PATCH to server */
     socket.emit(SocketText.events.obstructions, {
-      data: newObstruction,
+      obstruction: newObstruction,
       operation: SocketText.operations.update
     });
 
@@ -100,7 +97,6 @@ function MapView({ toAccount, setBackHandler }) {
         obs.properties.id === selectedObstruction.properties.id &&
         obs.properties.createdBy === selectedObstruction.properties.createdBy
     );
-
     const newList = obstructionList;
     newList[index] = newObstruction;
     setObstructionList(newList);
@@ -320,7 +316,7 @@ function MapView({ toAccount, setBackHandler }) {
             console.log('Created obstruction:', obstruction);
             /* POST obstruction to server */
             socket.emit(SocketText.events.obstructions, {
-              data: obstruction,
+              obstruction: obstruction,
               operation: SocketText.operations.create
             });
 
@@ -339,7 +335,7 @@ function MapView({ toAccount, setBackHandler }) {
             console.log('Delete obstruction data:', selectedObstruction);
             /* DELTE obstruction to server */
             socket.emit(SocketText.events.obstructions, {
-              data: selectedObstruction,
+              obstruction: selectedObstruction,
               operation: SocketText.operations.delete
             });
 
