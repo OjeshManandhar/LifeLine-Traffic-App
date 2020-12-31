@@ -30,8 +30,6 @@ class UserLocation {
         console.log('getCurrentPosition error:', error);
       },
       {
-        timeout: 10 * 1000, // 10 secs
-        maximumAge: 20 * 1000, // 20 secs
         enableHighAccuracy: true
       }
     );
