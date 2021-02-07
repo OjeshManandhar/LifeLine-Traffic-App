@@ -93,8 +93,8 @@ function Map({
               if (
                 currentObstruction.properties.id ===
                   data.features[0].properties.id &&
-                currentObstruction.properties.createdBy ===
-                  data.features[0].properties.createdBy
+                currentObstruction.properties.contact ===
+                  data.features[0].properties.contact
               ) {
                 toggleObstructionInfo(data.features[0]);
               } else {
@@ -126,7 +126,12 @@ function Map({
       <MapboxGL.ShapeSource
         id='driverMarkers-Source'
         shape={featureCollection}
-        onPress={data => toAccount(data.features[0].properties.id)}
+        onPress={data =>
+          toAccount({
+            contact: data.features[0].properties.contact,
+            role: data.features[0].properties.role
+          })
+        }
       >
         <MapboxGL.SymbolLayer
           style={layerStyles.driverMarker}
@@ -148,7 +153,12 @@ function Map({
       <MapboxGL.ShapeSource
         id='trafficMarkers-Source'
         shape={featureCollection}
-        onPress={data => toAccount(data.features[0].properties.id)}
+        onPress={data =>
+          toAccount({
+            contact: data.features[0].properties.contact,
+            role: data.features[0].properties.role
+          })
+        }
       >
         <MapboxGL.SymbolLayer
           style={layerStyles.trafficMarker}
@@ -174,7 +184,7 @@ function Map({
           onPress={data =>
             toggleRouteInfo(
               data.features[0].properties.id,
-              data.features[0].properties.createdBy
+              data.features[0].properties.contact
             )
           }
         >
@@ -209,7 +219,7 @@ function Map({
           onPress={data =>
             toggleRouteInfo(
               data.features[0].properties.id,
-              data.features[0].properties.createdBy
+              data.features[0].properties.contact
             )
           }
         >
@@ -239,7 +249,7 @@ function Map({
           onPress={data =>
             toggleRouteInfo(
               data.features[0].properties.id,
-              data.features[0].properties.createdBy
+              data.features[0].properties.contact
             )
           }
         >
@@ -268,11 +278,11 @@ function Map({
       const destination = { ...route.properties.destination };
       const startLocation = point(route.properties.startLocation, {
         id: route.properties.id,
-        createdBy: route.properties.createdBy
+        contact: route.properties.contact
       });
 
       destination.properties.id = route.properties.id;
-      destination.properties.createdBy = route.properties.createdBy;
+      destination.properties.contact = route.properties.contact;
 
       destinations.push(destination);
       startLocations.push(startLocation);
