@@ -6,7 +6,7 @@ export const SocketText = {
   },
   events: {
     driverLocation: 'driver_gps',
-    obstructions: 'obstructions',
+    obstructions: 'obstruction',
     driverRoutes: 'driver_route',
     trafficLocation: 'traffic_gps'
   }

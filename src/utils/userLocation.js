@@ -11,7 +11,7 @@ import { SocketText } from 'global/strings';
 function emitLocation(location, operation) {
   const info = UserInfo.getInfo();
 
-  socket.emit(SocketText.events.driverLocation, {
+  socket.emit(SocketText.events.trafficLocation, {
     operation,
     traffic_gps: {
       type: 'Feature',
