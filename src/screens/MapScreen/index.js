@@ -20,7 +20,7 @@ import { MapScreenText } from 'global/strings';
 UserLocation.init();
 
 function MapScreen({ navigation }) {
-  const [accountId, setAccountId] = useState(null);
+  const [accountInfo, setAccountInfo] = useState(null);
 
   // To flag whether MapView can handle BackButton or not
   const [mapViewBackHandler, setMapViewBackHandler] = useState();
@@ -83,8 +83,8 @@ function MapScreen({ navigation }) {
     <View style={styles.container}>
       <MapView
         setBackHandler={setMapViewBackHandler}
-        toAccount={id => {
-          setAccountId(id);
+        toAccount={info => {
+          setAccountInfo(info);
           setMapScreenStatus(EMapScreenStatus.accountView);
         }}
       />
@@ -95,7 +95,7 @@ function MapScreen({ navigation }) {
         logout={() => navigation.navigate(Routes.login)}
         mapView={() => {
           setMapScreenStatus(EMapScreenStatus.mapView);
-          setAccountId(null);
+          setAccountInfo(null);
         }}
       />
     </View>
