@@ -17,8 +17,8 @@ export default StyleSheet.create({
   topCurve: {
     position: 'absolute',
     top: 0,
-    left: 0,
-    right: 0,
+    height: 135,
+    width: '100%',
 
     zIndex: LoginIndex.curve
   },
@@ -60,9 +60,9 @@ export default StyleSheet.create({
   },
   bottomCurve: {
     position: 'absolute',
-    left: 0,
-    right: 0,
     bottom: 0,
+    height: 135,
+    width: '100%',
 
     zIndex: LoginIndex.curve
   }

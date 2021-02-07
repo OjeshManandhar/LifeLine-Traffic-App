@@ -33,8 +33,6 @@ import { LoginText } from 'global/strings';
 import styles from './styles';
 
 function Login({ navigation }) {
-  const userToken = UserInfo.getToken();
-
   const LOGO_SIZE = 120;
   const TRANSLATATION_VALUE = 120;
   const ANIMATION_DURATION = 0.5 * 1000;
@@ -61,18 +59,28 @@ function Login({ navigation }) {
   const handleLogin = useCallback(async () => {
     setIsLoggingIn(true);
 
-    login(phoneNumber, password, true)
-      .then(async ({ userToken }) => {
-        await UserInfo.set(userToken);
+    login(phoneNumber, password)
+      .then(async function (response) {
+        console.log('login response:', response.data);
+
+        const info = response.data;
+
+        await UserInfo.set(info);
 
         clearFields();
         setIsLoggingIn(false);
 
-        navigation.navigate(Routes.map);
+        // navigation.navigate(Routes.map);
       })
-      .catch(({ errorCode }) => {
+      .catch(function (error) {
+        if (error.response) {
+          setErrorText(error.response.data);
+        } else {
+          setErrorText(LoginText.errorText.noNetwork);
+        }
+
+        clearFields();
         setIsLoggingIn(false);
-        setErrorText(LoginText.errorText[errorCode]);
       });
   }, [password, phoneNumber, clearFields, setErrorText, setIsLoggingIn]);
 
@@ -151,13 +159,9 @@ function Login({ navigation }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (userToken) {
-      navigation.navigate(Routes.map);
-    }
-  }, [navigation]);
-
-  if (userToken) return null;
+  if (UserInfo.getToken()) {
+    navigation.navigate(Routes.map);
+  }
 
   return (
     <View style={styles.container}>
