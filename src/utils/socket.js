@@ -5,9 +5,8 @@ import io from 'socket.io-client';
 import { SOCKET_ENDPOINT } from '@env';
 
 export default io(SOCKET_ENDPOINT, {
-  transports: ['websocket'] /* Needed for RN */,
-  reconnection: false /* Remove this while using while with server */,
-  // reconnection: true, /* Un-comment this while using with server */
+  autoConnect: true,
+  reconnection: true,
   reconnectionDelay: 500,
   reconnectionAttempts: Infinity
 });
