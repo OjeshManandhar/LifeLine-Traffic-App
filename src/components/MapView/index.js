@@ -24,22 +24,15 @@ import { SocketText, MapViewText } from 'global/strings';
 // styles
 import styles, { topContainerHeight } from './styles';
 
-import {
-  dummyRoute,
-  dummyObstruction,
-  dummyDriverLocations,
-  dummyTrafficLocations
-} from 'global/dummyData';
-
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
 
   const [isPicking, setIsPicking] = useState(false);
   const [description, setDescription] = useState('');
-  const [driverRoutes, setDriverRoutes] = useState(dummyRoute);
-  const [driverLocation, setDriverLocation] = useState(dummyDriverLocations);
-  const [obstructionList, setObstructionList] = useState(dummyObstruction);
-  const [trafficLocation, setTrafficLocation] = useState(dummyTrafficLocations);
+  const [driverRoutes, setDriverRoutes] = useState([]);
+  const [driverLocation, setDriverLocation] = useState([]);
+  const [obstructionList, setObstructionList] = useState([]);
+  const [trafficLocation, setTrafficLocation] = useState([]);
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
   const [selectedDriverRoute, setSelectedDriverRoute] = useState(null);
   const [selectedObstruction, setSelectedObstruction] = useState(null);
