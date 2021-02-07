@@ -185,11 +185,9 @@ function MapView({ toAccount, setBackHandler }) {
             setMapViewStatus(EMapViewStatus.routeInfo);
           }
         }}
-        toAccount={id => {
+        toAccount={info => {
           if (mapViewStatus === EMapViewStatus.clear) {
-            console.log('ID:', id);
-
-            toAccount(id);
+            toAccount(info);
           }
         }}
       />
@@ -217,7 +215,7 @@ function MapView({ toAccount, setBackHandler }) {
             opacity: [1, 0]
           }
         }}
-        onPress={() => toAccount(123)}
+        onPress={() => toAccount(null)}
       />
 
       {/* Top Container */}

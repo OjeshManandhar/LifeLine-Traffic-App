@@ -38,8 +38,6 @@ import {
 } from '@env';
 
 function AccountView(props) {
-  // console.log('props:', props);
-
   const [error, setError] = useState(false);
   const [accInfo, setAccInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -77,8 +75,10 @@ function AccountView(props) {
       } else {
         const info = UserInfo.getInfo();
 
+        console.log('info:', info);
+
         setAccInfo(info);
-        setAccImage(`${API_URL}${DRIVER_IMAGE_ENDPOINT}/${info.contact}`);
+        setAccImage(`${API_URL}${TRAFFIC_IMAGE_ENDPOINT}/${info.contact}`);
 
         setError(false);
         setLoading(false);
