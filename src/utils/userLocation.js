@@ -13,7 +13,7 @@ function emitLocation(location, operation) {
 
   socket.emit(SocketText.events.driverLocation, {
     operation,
-    driver_gps: {
+    traffic_gps: {
       type: 'Feature',
       geometry: {
         type: 'Point',
