@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 // packages
+import Axios from 'axios';
 import { Avatar, Button, Divider, IconButton } from 'react-native-paper';
 
 // components
@@ -48,11 +49,11 @@ function AccountView(props) {
   useEffect(() => {
     async function getInfo() {
       if (props.accountInfo) {
-        const driverAcc = accountInfo.role === 'driver';
+        const driverAcc = props.accountInfo.role === 'driver';
 
         Axios.get(
           `{API_URL}${driverAcc ? DRIVER_INFO : TRAFFIC_INFO}/${
-            accountInfo.contact
+            props.accountInfo.contact
           }`
         )
           .then(response => {
@@ -71,7 +72,7 @@ function AccountView(props) {
         setAccImage(
           `${API_URL}${
             driverAcc ? DRIVER_IMAGE_ENDPOINT : TRAFFIC_IMAGE_ENDPOINT
-          }/${accountInfo.contact}`
+          }/${props.accountInfo.contact}`
         );
       } else {
         const info = UserInfo.getInfo();
@@ -109,7 +110,7 @@ function AccountView(props) {
         }
       }}
     >
-      {loading && accInfo ? (
+      {loading && !accInfo ? (
         <View style={styles.loading}>
           {error ? (
             <Text style={styles.errorText}>An error occured</Text>

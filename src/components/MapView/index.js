@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { View, Image, Pressable, BackHandler } from 'react-native';
 
+// packages
+import Axios from 'axios';
+
 // components
 import Map from 'components/Map';
 import Text from 'components/Text';

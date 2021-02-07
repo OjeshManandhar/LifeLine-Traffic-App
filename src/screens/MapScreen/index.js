@@ -91,7 +91,7 @@ function MapScreen({ navigation }) {
 
       <AccountView
         in={mapScreenStatus === EMapScreenStatus.accountView}
-        accountId={accountId}
+        accountInfo={accountInfo}
         logout={() => navigation.navigate(Routes.login)}
         mapView={() => {
           setMapScreenStatus(EMapScreenStatus.mapView);
