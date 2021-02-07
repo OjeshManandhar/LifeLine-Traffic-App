@@ -22,10 +22,27 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.modalBG
   },
+  loading: {
+    position: 'relative',
+    width: '95%',
+    height: '50%',
+
+    borderRadius: 10,
+    backgroundColor: 'white',
+
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  errorText: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: Colors.errorText,
+    marginTop: 10
+  },
   container: {
     position: 'relative',
     width: '95%',
-    height: '80%',
 
     borderRadius: 10,
     backgroundColor: 'white',
@@ -89,17 +106,15 @@ export default StyleSheet.create({
     width: '70%',
 
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
 
-    marginTop: 'auto',
+    marginTop: 15,
     marginBottom: 38
   },
   callButton: {
-    marginTop: 'auto',
-    marginLeft: 'auto',
-
-    backgroundColor: Colors.callButtonBG
+    backgroundColor: Colors.callButtonBG,
+    margin: 0
   },
   logOutButton: {
     width: 150,

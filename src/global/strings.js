@@ -61,6 +61,11 @@ export const RouteInfoText = {
 };
 
 export const AccountViewText = {
+  label: {
+    name: 'Username',
+    contact: 'Contact Number',
+    role: 'Account Type'
+  },
   button: 'Log Out',
   accountType: {
     driver: 'Driver Account',
