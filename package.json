@@ -18,6 +18,7 @@
     "@react-native-mapbox-gl/maps": "^8.1.0-rc.5",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
+    "axios": "0.18.0",
     "geolib": "^3.3.1",
     "react": "16.13.1",
     "react-native": "0.63.3",
