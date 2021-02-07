@@ -19,9 +19,6 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 // navigator
 import Navigator from 'navigator';
 
-// dummy_api
-import { checkToken } from 'dummy_api';
-
 // utils
 import UserInfo from 'utils/userInfo';
 import UserLocation from 'utils/userLocation';

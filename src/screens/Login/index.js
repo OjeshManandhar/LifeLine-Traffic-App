@@ -14,10 +14,10 @@ import { Button, TextInput } from 'react-native-paper';
 import Text from 'components/Text';
 
 // dummy_api
-import { login } from 'dummy_api';
+import login from 'api/login';
 
 // utils
-import UserToken from 'utils/userToken';
+import UserInfo from 'utils/userInfo';
 
 // assets
 import logo from 'assets/images/logo.png';
@@ -33,7 +33,7 @@ import { LoginText } from 'global/strings';
 import styles from './styles';
 
 function Login({ navigation }) {
-  const userToken = UserToken.get();
+  const userToken = UserInfo.getToken();
 
   const LOGO_SIZE = 120;
   const TRANSLATATION_VALUE = 120;
@@ -63,7 +63,7 @@ function Login({ navigation }) {
 
     login(phoneNumber, password, true)
       .then(async ({ userToken }) => {
-        await UserToken.set(userToken);
+        await UserInfo.set(userToken);
 
         clearFields();
         setIsLoggingIn(false);
