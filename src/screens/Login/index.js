@@ -61,8 +61,6 @@ function Login({ navigation }) {
 
     login(phoneNumber, password)
       .then(async function (response) {
-        console.log('login response:', response.data);
-
         const info = response.data;
 
         await UserInfo.set(info);
@@ -70,7 +68,7 @@ function Login({ navigation }) {
         clearFields();
         setIsLoggingIn(false);
 
-        // navigation.navigate(Routes.map);
+        navigation.navigate(Routes.map);
       })
       .catch(function (error) {
         if (error.response) {

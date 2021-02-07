@@ -25,7 +25,7 @@ class UserToken {
     }
   }
 
-  async set(token) {
+  async set(info) {
     await AsyncStorage.setItem(USER_INFO_KEY, JSON.stringify(info));
     this.#info = {
       name: info.name,
