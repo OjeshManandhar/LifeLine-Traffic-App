@@ -6,7 +6,7 @@ import MapView from 'components/MapView';
 import AccountView from 'components/AccountView';
 
 // utils
-import UserToken from 'utils/userToken';
+import UserInfo from 'utils/userInfo';
 
 // styles
 import styles from './styles';
@@ -46,7 +46,7 @@ function MapScreen({ navigation }) {
             // If the user confirmed, then we dispatch the action we blocked earlier
             // This will continue the action that had triggered the removal of the screen
             onPress: async () => {
-              await UserToken.delete();
+              await UserInfo.delete();
               navigation.dispatch(e.data.action);
             }
           }

@@ -23,7 +23,7 @@ import Navigator from 'navigator';
 import { checkToken } from 'dummy_api';
 
 // utils
-import UserToken from 'utils/userToken';
+import UserInfo from 'utils/userInfo';
 import UserLocation from 'utils/userLocation';
 
 // global
@@ -52,19 +52,10 @@ MapboxGL.setAccessToken(MAPBOX_API_KEY);
 function App() {
   const [isReady, setIsReady] = useState(false);
 
-  // Check userToken
+  // Check UserInfo
   useEffect(() => {
     (async function () {
-      await UserToken.init();
-
-      const userToken = UserToken.get();
-
-      if (userToken) {
-        const { valid } = await checkToken(userToken, true);
-        if (!valid) {
-          await UserToken.delete();
-        }
-      }
+      await UserInfo.init();
 
       setIsReady(true);
 
