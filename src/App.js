@@ -21,7 +21,6 @@ import Navigator from 'navigator';
 
 // utils
 import UserInfo from 'utils/userInfo';
-import UserLocation from 'utils/userLocation';
 
 // global
 import Fonts from 'global/fonts';
@@ -43,7 +42,6 @@ const theme = {
   }
 };
 
-UserLocation.init();
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
 function App() {
