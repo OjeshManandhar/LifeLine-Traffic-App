@@ -11,11 +11,12 @@ import AnimatedImageButton from 'components/AnimatedImageButton';
 
 // assets
 import back from 'assets/images/back.png';
-import account from 'assets/images/dead.png';
+import noImage from 'assets/images/noImage.jpg';
 import addButton from 'assets/images/addButton.png';
 
 // utils
 import socket from 'utils/socket';
+import UserInfo from 'utils/userInfo';
 
 // global
 import { EMapViewStatus } from 'global/enum';
@@ -24,9 +25,13 @@ import { SocketText, MapViewText } from 'global/strings';
 // styles
 import styles, { topContainerHeight } from './styles';
 
+// env
+import { API_URL, SMALL_IMAGE_ENDPOINT } from '@env';
+
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
 
+  const [avatar, setAvatar] = useState(null);
   const [isPicking, setIsPicking] = useState(false);
   const [description, setDescription] = useState('');
   const [driverRoutes, setDriverRoutes] = useState([]);
@@ -56,6 +61,17 @@ function MapView({ toAccount, setBackHandler }) {
     setTrafficLocation
   ]);
 
+  // avatar
+  useEffect(() => {
+    async function getImage() {
+      Axios.get(`${API_URL}${SMALL_IMAGE_ENDPOINT}/${UserInfo.getContact()}`)
+        .then(res => setAvatar(res.data))
+        .catch(err => console.log('Fetch image error:', err));
+    }
+
+    getImage();
+  }, [setAvatar]);
+
   function clearPickedCoordinate() {
     setDescription('');
     setIsPicking(false);
@@ -72,17 +88,7 @@ function MapView({ toAccount, setBackHandler }) {
       obstruction: newObstruction,
       operation: SocketText.operations.update
     });
-
-    // Remove this after server connection
-    const index = obstructionList.findIndex(
-      obs =>
-        obs.properties.id === selectedObstruction.properties.id &&
-        obs.properties.createdBy === selectedObstruction.properties.createdBy
-    );
-    const newList = obstructionList;
-    newList[index] = newObstruction;
-    setObstructionList(newList);
-  }, [description, obstructionList, setObstructionList, selectedObstruction]);
+  }, [description, selectedObstruction]);
 
   // Back handler
   const handleBackButton = useCallback(() => {
@@ -188,7 +194,13 @@ function MapView({ toAccount, setBackHandler }) {
       {/* Account Button */}
       <AnimatedImageButton
         in={mapViewStatus !== EMapViewStatus.addingObstruction}
-        image={account}
+        image={
+          avatar
+            ? {
+                uri: avatar
+              }
+            : noImage
+        }
         timeout={0.25 * 1000}
         useViewContainer={true}
         imageStyles={styles.avatar}
@@ -290,7 +302,7 @@ function MapView({ toAccount, setBackHandler }) {
             const obstruction = { ...data };
             obstruction.properties = {
               ...obstruction.properties,
-              createdBy: 'DeadSkull',
+              contact: UserInfo.getContact(),
               description: description,
               id: obstructionList.length
             };
@@ -302,15 +314,6 @@ function MapView({ toAccount, setBackHandler }) {
               operation: SocketText.operations.create
             });
 
-            // Remove this after server connection
-            setObstructionList(curList => {
-              const newList = [...curList];
-
-              newList.push(obstruction);
-
-              return newList;
-            });
-
             clearPickedCoordinate();
             setMapViewStatus(EMapViewStatus.clear);
           } else if (mapViewStatus === EMapViewStatus.obstructionInfo) {
@@ -320,18 +323,6 @@ function MapView({ toAccount, setBackHandler }) {
               obstruction: selectedObstruction,
               operation: SocketText.operations.delete
             });
-
-            // Remove this after server connection
-            setObstructionList(curList =>
-              curList.filter(
-                obs =>
-                  !(
-                    obs.properties.id === selectedObstruction.properties.id &&
-                    obs.properties.createdBy ===
-                      selectedObstruction.properties.createdBy
-                  )
-              )
-            );
 
             setMapViewStatus(EMapViewStatus.clear);
             setDescription('');
