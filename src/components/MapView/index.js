@@ -156,12 +156,12 @@ function MapView({ toAccount, setBackHandler }) {
             setSelectedObstruction(null);
           }
         }}
-        toggleRouteInfo={(id, createdBy) => {
+        toggleRouteInfo={(id, contact) => {
           if (mapViewStatus === EMapViewStatus.routeInfo) {
             if (
               selectedDriverRoute &&
               id === selectedDriverRoute.properties.id &&
-              createdBy === selectedDriverRoute.properties.createdBy
+              contact === selectedDriverRoute.properties.contact
             ) {
               setSelectedDriverRoute(null);
               setMapViewStatus(EMapViewStatus.clear);
@@ -170,7 +170,7 @@ function MapView({ toAccount, setBackHandler }) {
                 driverRoutes.find(
                   route =>
                     route.properties.id === id &&
-                    route.properties.createdBy === createdBy
+                    route.properties.contact === contact
                 )
               );
             }
@@ -179,7 +179,7 @@ function MapView({ toAccount, setBackHandler }) {
               driverRoutes.find(
                 route =>
                   route.properties.id === id &&
-                  route.properties.createdBy === createdBy
+                  route.properties.contact === contact
               )
             );
             setMapViewStatus(EMapViewStatus.routeInfo);
