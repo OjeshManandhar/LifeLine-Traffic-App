@@ -75,8 +75,6 @@ function AccountView(props) {
       } else {
         const info = UserInfo.getInfo();
 
-        console.log('info:', info);
-
         setAccInfo(info);
         setAccImage(`${API_URL}${TRAFFIC_IMAGE_ENDPOINT}/${info.contact}`);
 

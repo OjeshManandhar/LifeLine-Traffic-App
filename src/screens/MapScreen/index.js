@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Alert, AppState, BackHandler } from 'react-native';
 
+// packages
+import SplashScreen from 'react-native-splash-screen';
+
 // components
 import MapView from 'components/MapView';
 import AccountView from 'components/AccountView';
@@ -95,6 +98,10 @@ function MapScreen({ navigation }) {
   }, [handleBackButton]);
 
   UserLocation.init();
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <View style={styles.container}>

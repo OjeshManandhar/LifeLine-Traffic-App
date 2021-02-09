@@ -13,7 +13,6 @@ import { StatusBar } from 'react-native';
 
 // packages
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import SplashScreen from 'react-native-splash-screen';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 // navigator
@@ -53,8 +52,6 @@ function App() {
       await UserInfo.init();
 
       setIsReady(true);
-
-      SplashScreen.hide();
     })();
   }, [setIsReady]);
 
