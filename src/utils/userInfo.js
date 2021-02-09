@@ -13,7 +13,9 @@ class UserToken {
   };
 
   async init() {
-    const data = JSON.parse(await AsyncStorage.getItem(USER_INFO_KEY));
+    console.log('UserInfo init()');
+
+    const data = await JSON.parse(await AsyncStorage.getItem(USER_INFO_KEY));
 
     if (data) {
       this.#token = data.token;
