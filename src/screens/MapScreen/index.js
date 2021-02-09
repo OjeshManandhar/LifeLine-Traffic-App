@@ -17,8 +17,6 @@ import Routes from 'global/routes';
 import { EMapScreenStatus } from 'global/enum';
 import { MapScreenText } from 'global/strings';
 
-UserLocation.init();
-
 function MapScreen({ navigation }) {
   const [accountInfo, setAccountInfo] = useState(null);
 
@@ -95,6 +93,8 @@ function MapScreen({ navigation }) {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   }, [handleBackButton]);
+
+  UserLocation.init();
 
   return (
     <View style={styles.container}>
