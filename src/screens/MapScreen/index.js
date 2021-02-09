@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Alert, BackHandler } from 'react-native';
+import { View, Alert, AppState, BackHandler } from 'react-native';
 
 // components
 import MapView from 'components/MapView';
@@ -28,6 +28,23 @@ function MapScreen({ navigation }) {
   const [mapScreenStatus, setMapScreenStatus] = useState(
     EMapScreenStatus.mapView
   );
+
+  const handleAppStateChange = useCallback(appState => {
+    if (appState === 'active') {
+      UserLocation.startSendLocation();
+    } else {
+      UserLocation.stopSendLocation();
+    }
+  }, []);
+
+  // init and clear Userlocation
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
+  }, [handleAppStateChange]);
 
   // Logout alert
   useEffect(() => {

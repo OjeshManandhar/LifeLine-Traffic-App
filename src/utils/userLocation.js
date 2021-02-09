@@ -28,17 +28,23 @@ function emitLocation(location, operation) {
 }
 
 class UserLocation {
+  #sendLocation = true;
+  #alreadyInit = false;
   #userLocation = null;
   #watchId = null;
 
   init() {
+    if (this.#alreadyInit) {
+      return;
+    }
+
     console.log('UserLocation.init()');
 
     Geolocation.getCurrentPosition(
       sucess => {
         this.#userLocation = [sucess.coords.longitude, sucess.coords.latitude];
 
-        emitLocation(this.#userLocation, SocketText.operations.create);
+        emitLocation(this.#userLocation, SocketText.operations.update);
       },
       error => {
         console.log('getCurrentPosition error:', error);
@@ -53,7 +59,8 @@ class UserLocation {
         // console.log('Geolocation.watchPosition() sucess:', sucess);
         this.#userLocation = [sucess.coords.longitude, sucess.coords.latitude];
 
-        emitLocation(this.#userLocation, SocketText.operations.update);
+        this.#sendLocation &&
+          emitLocation(this.#userLocation, SocketText.operations.update);
       },
       error => {
         console.log('watchPosition error:', error);
@@ -65,6 +72,16 @@ class UserLocation {
         enableHighAccuracy: true
       }
     );
+  }
+
+  startSendLocation() {
+    this.#sendLocation = true;
+    emitLocation(this.#userLocation, SocketText.operations.update);
+  }
+
+  stopSendLocation() {
+    this.#sendLocation = false;
+    emitLocation(this.#userLocation, SocketText.operations.delete);
   }
 
   get currentLocation() {
