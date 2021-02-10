@@ -27,14 +27,22 @@ class UserToken {
     }
   }
 
-  async set(info) {
-    await AsyncStorage.setItem(USER_INFO_KEY, JSON.stringify(info));
+  async set(data) {
+    await AsyncStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
     this.#info = {
       name: info.name,
       contact: info.contact,
       role: info.role
     };
     this.#token = info.token;
+  }
+
+  async setNewToken(token) {
+    const data = { ...this.#info, token };
+
+    await AsyncStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
+
+    this.#token = token;
   }
 
   getToken() {
@@ -48,6 +56,7 @@ class UserToken {
   getInfo() {
     return this.#info;
   }
+
   async delete() {
     await AsyncStorage.removeItem(USER_INFO_KEY);
     this.#info = {

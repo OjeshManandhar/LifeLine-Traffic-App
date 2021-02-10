@@ -18,6 +18,9 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 // navigator
 import Navigator from 'navigator';
 
+// api
+// import tokenCheck from 'api/tokenCheck';
+
 // utils
 import UserInfo from 'utils/userInfo';
 
@@ -50,6 +53,28 @@ function App() {
   useEffect(() => {
     (async function () {
       await UserInfo.init();
+
+      // const userToken = UserInfo.getToken();
+
+      // try {
+      //   if (userToken) {
+      //     tokenCheck(userToken)
+      //       .then(async response => {
+      //         console.log('Token check response:', response);
+
+      //         const newToken = response.data;
+
+      //         await UserInfo.setNewToken(newToken);
+      //       })
+      //       .catch(async err => {
+      //         console.log('Token check error:', error);
+
+      //         await UserInfo.delete();
+      //       });
+      //   }
+      // } catch {
+      //   console.log('Token check catch');
+      // }
 
       setIsReady(true);
     })();
