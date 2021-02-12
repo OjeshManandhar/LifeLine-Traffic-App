@@ -50,13 +50,13 @@ function AccountView(props) {
         const driverAcc = props.accountInfo.role === 'driver';
 
         Axios.get(
-          `{API_URL}${driverAcc ? DRIVER_INFO : TRAFFIC_INFO}/${
+          `${API_URL}${driverAcc ? DRIVER_INFO : TRAFFIC_INFO}/${
             props.accountInfo.contact
           }`
         )
           .then(response => {
-            console.log('Account View res:', response);
-
+            const { data } = response;
+            setAccInfo(data);
             setError(false);
             setLoading(false);
           })
