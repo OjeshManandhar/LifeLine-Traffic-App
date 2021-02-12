@@ -21,9 +21,9 @@ export default {
   useButtonBackground: '#1a73e8',
 
   maxTint: 'black',
-  emergency_1: 'green',
-  emergency_2: 'yellow',
-  emergency_3: 'red',
+  emergency_1: '#0d8e49',
+  emergency_2: '#fff200',
+  emergency_3: '#e22049',
 
   routeToDestination: '#669df6',
   routesToPickedLocation: '#bbbdbf',
