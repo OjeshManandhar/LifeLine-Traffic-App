@@ -67,6 +67,7 @@ function MapScreen({ navigation }) {
             // If the user confirmed, then we dispatch the action we blocked earlier
             // This will continue the action that had triggered the removal of the screen
             onPress: async () => {
+              UserLocation.clearWatch();
               await UserInfo.delete();
               navigation.dispatch(e.data.action);
             }
