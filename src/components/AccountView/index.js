@@ -73,7 +73,7 @@ function AccountView(props) {
         setAccImage(
           `${API_URL}${
             driverAcc ? DRIVER_IMAGE_ENDPOINT : TRAFFIC_IMAGE_ENDPOINT
-          }/${props.accountInfo.contact}`
+          }/${props.accountInfo.contact}?&timestamp=${new Date()}`
         );
       } else {
         const info = UserInfo.getInfo();
