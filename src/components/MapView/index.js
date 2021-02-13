@@ -30,6 +30,7 @@ import styles, { topContainerHeight } from './styles';
 
 // env
 import { API_URL, SMALL_IMAGE_ENDPOINT } from '@env';
+import userInfo from 'utils/userInfo';
 
 function MapView({ toAccount, setBackHandler }) {
   const descriptionRef = useRef(null);
@@ -40,24 +41,29 @@ function MapView({ toAccount, setBackHandler }) {
   const [driverRoutes, setDriverRoutes] = useState([]);
   const [driverLocation, setDriverLocation] = useState([]);
   const [obstructionList, setObstructionList] = useState([]);
-  const [trafficLocation, setTrafficLocation] = useState([]);
+  const [trafficLocation, _setTrafficLocation] = useState([]);
   const [pickedCoordinate, setPickedCoordintate] = useState(null);
   const [selectedDriverRoute, setSelectedDriverRoute] = useState(null);
   const [selectedObstruction, setSelectedObstruction] = useState(null);
 
   const [mapViewStatus, setMapViewStatus] = useState(EMapViewStatus.clear);
 
+  const setTrafficLocation = useCallback(
+    data => {
+      _setTrafficLocation(
+        data.filter(item => item.properties.contact !== UserInfo.getContact())
+      );
+    },
+    [_setTrafficLocation]
+  );
+
   // Socket
   useEffect(() => {
     socket.on(SocketText.events.message, data => {
       setDriverLocation(data['driver_gps']);
       setDriverRoutes(data['driver_routes']);
+      setTrafficLocation(data['traffic_gps']);
       setObstructionList(data['obstructions']);
-      setTrafficLocation(
-        data['traffic_gps'].filter(
-          item => item.properties.contant !== UserInfo.getContact()
-        )
-      );
     });
     socket.on(SocketText.events.driverRoutes, data => setDriverRoutes(data));
     socket.on(SocketText.events.obstructions, data => setObstructionList(data));

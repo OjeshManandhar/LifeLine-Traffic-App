@@ -3,7 +3,8 @@ import {
   View,
   Linking,
   ActivityIndicator,
-  useWindowDimensions
+  useWindowDimensions,
+  Toucha
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -78,7 +79,11 @@ function AccountView(props) {
         const info = UserInfo.getInfo();
 
         setAccInfo(info);
-        setAccImage(`${API_URL}${TRAFFIC_IMAGE_ENDPOINT}/${info.contact}`);
+        setAccImage(
+          `${API_URL}${TRAFFIC_IMAGE_ENDPOINT}/${
+            info.contact
+          }?&timestamp=${new Date()}`
+        );
 
         setError(false);
         setLoading(false);
@@ -116,14 +121,13 @@ function AccountView(props) {
         </View>
       ) : error ? (
         <View style={styles.loading}>
-          <TouchableWithoutFeedback onPress={props.mapView}>
-            <Icon
-              name='close'
-              size={35}
-              color={Colors.greyBorder}
-              style={styles.backIcon}
-            />
-          </TouchableWithoutFeedback>
+          <IconButton
+            icon='close'
+            size={35}
+            color={Colors.mainText}
+            onPress={props.mapView}
+            style={styles.backIcon}
+          />
 
           <Text style={styles.errorText}>An error occured</Text>
         </View>
