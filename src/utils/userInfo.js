@@ -30,11 +30,11 @@ class UserToken {
   async set(data) {
     await AsyncStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
     this.#info = {
-      name: info.name,
-      contact: info.contact,
-      role: info.role
+      name: data.name,
+      contact: data.contact,
+      role: data.role
     };
-    this.#token = info.token;
+    this.#token = data.token;
   }
 
   async setNewToken(token) {

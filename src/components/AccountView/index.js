@@ -55,8 +55,10 @@ function AccountView(props) {
           }`
         )
           .then(response => {
-            const { data } = response;
-            setAccInfo(data);
+            console.log('Account View res:', response);
+
+            setAccInfo(response.data);
+
             setError(false);
             setLoading(false);
           })
@@ -108,13 +110,22 @@ function AccountView(props) {
         }
       }}
     >
-      {loading && !accInfo ? (
+      {loading ? (
         <View style={styles.loading}>
-          {error ? (
-            <Text style={styles.errorText}>An error occured</Text>
-          ) : (
-            <ActivityIndicator size='large' color={Colors.primary} />
-          )}
+          <ActivityIndicator size='large' color={Colors.primary} />
+        </View>
+      ) : error ? (
+        <View style={styles.loading}>
+          <TouchableWithoutFeedback onPress={props.mapView}>
+            <Icon
+              name='close'
+              size={35}
+              color={Colors.greyBorder}
+              style={styles.backIcon}
+            />
+          </TouchableWithoutFeedback>
+
+          <Text style={styles.errorText}>An error occured</Text>
         </View>
       ) : (
         <View style={styles.container}>

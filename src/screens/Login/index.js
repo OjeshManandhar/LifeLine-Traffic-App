@@ -63,10 +63,10 @@ function Login({ navigation }) {
     login(phoneNumber, password)
       .then(async function (response) {
         const info = response.data;
-
         await UserInfo.set(info);
 
         clearFields();
+        setErrorText(null);
         setIsLoggingIn(false);
 
         navigation.navigate(Routes.map);
