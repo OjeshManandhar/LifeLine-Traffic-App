@@ -82,7 +82,7 @@ function App() {
 
   return (
     <PaperProvider theme={theme}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar backgroundColor='#ffffff' barStyle='dark-content' />
 
       {isReady && <Navigator />}
     </PaperProvider>
