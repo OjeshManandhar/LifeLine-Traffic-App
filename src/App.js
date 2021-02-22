@@ -54,29 +54,35 @@ function App() {
     (async function () {
       await UserInfo.init();
 
-      // const userToken = UserInfo.getToken();
+      const userToken = UserInfo.getToken();
 
-      // try {
-      //   if (userToken) {
-      //     tokenCheck(userToken)
-      //       .then(async response => {
-      //         console.log('Token check response:', response);
+      try {
+        if (userToken) {
+          tokenCheck(userToken)
+            .then(async response => {
+              console.log('Token check response:', response);
 
-      //         const newToken = response.data;
+              const newToken = response.data['new_token'];
 
-      //         await UserInfo.setNewToken(newToken);
-      //       })
-      //       .catch(async err => {
-      //         console.log('Token check error:', error);
+              await UserInfo.setNewToken(newToken);
 
-      //         await UserInfo.delete();
-      //       });
-      //   }
-      // } catch {
-      //   console.log('Token check catch');
-      // }
+              setIsReady(true);
+            })
+            .catch(async err => {
+              console.log('Token check req error:', error);
 
-      setIsReady(true);
+              await UserInfo.delete();
+
+              setIsReady(true);
+            });
+        }
+      } catch (err) {
+        console.log('Token check catch:', err);
+
+        await UserInfo.delete();
+
+        setIsReady(true);
+      }
     })();
   }, [setIsReady]);
 
