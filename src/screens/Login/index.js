@@ -74,7 +74,7 @@ function Login({ navigation }) {
       .catch(function (error) {
         console.log('Login err:', error);
 
-        if (error.response.status === 500) {
+        if (error.response.status && error.response.status === 500) {
           setErrorText(LoginText.errorText.serverErr);
         } else if (error.response) {
           setErrorText(error.response.data);
