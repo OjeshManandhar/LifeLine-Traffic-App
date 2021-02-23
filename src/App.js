@@ -19,7 +19,7 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import Navigator from 'navigator';
 
 // api
-// import tokenCheck from 'api/tokenCheck';
+import tokenCheck from 'api/tokenCheck';
 
 // utils
 import UserInfo from 'utils/userInfo';
@@ -56,31 +56,25 @@ function App() {
 
       const userToken = UserInfo.getToken();
 
-      try {
-        if (userToken) {
-          tokenCheck(userToken)
-            .then(async response => {
-              console.log('Token check response:', response);
+      if (userToken) {
+        tokenCheck(userToken)
+          .then(async response => {
+            console.log('Token check response:', response);
 
-              const newToken = response.data['new_token'];
+            const newToken = response.data['new_token'];
 
-              await UserInfo.setNewToken(newToken);
+            await UserInfo.setNewToken(newToken);
 
-              setIsReady(true);
-            })
-            .catch(async err => {
-              console.log('Token check req error:', error);
+            setIsReady(true);
+          })
+          .catch(async err => {
+            console.log('Token check req error:', err.response);
 
-              await UserInfo.delete();
+            await UserInfo.delete();
 
-              setIsReady(true);
-            });
-        }
-      } catch (err) {
-        console.log('Token check catch:', err);
-
-        await UserInfo.delete();
-
+            setIsReady(true);
+          });
+      } else {
         setIsReady(true);
       }
     })();
