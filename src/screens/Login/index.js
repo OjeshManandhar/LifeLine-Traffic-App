@@ -72,18 +72,21 @@ function Login({ navigation }) {
         navigation.navigate(Routes.map);
       })
       .catch(function (error) {
-        console.log('Login err:', error);
+        console.log('Login err:', error, error.message);
+        console.dir(error);
 
-        if (error.response.status && error.response.status === 500) {
+        // clearFields();
+        setIsLoggingIn(false);
+
+        if (error.message && !error.response) {
+          setErrorText(error.message);
+        } else if (error.response.status && error.response.status === 500) {
           setErrorText(LoginText.errorText.serverErr);
         } else if (error.response) {
           setErrorText(error.response.data);
         } else {
           setErrorText(LoginText.errorText.noNetwork);
         }
-
-        clearFields();
-        setIsLoggingIn(false);
       });
   }, [password, phoneNumber, clearFields, setErrorText, setIsLoggingIn]);
 

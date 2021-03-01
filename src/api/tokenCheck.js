@@ -7,7 +7,9 @@ import { API_URL, TOKEN_CHECK } from '@env';
 export default async function (token) {
   const url = API_URL + TOKEN_CHECK;
 
-  return Axios.get(url, {
+  return Axios({
+    url,
+    method: 'POST',
     headers: {
       'x-access-token': token
     }

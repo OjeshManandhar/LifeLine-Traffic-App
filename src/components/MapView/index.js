@@ -87,8 +87,9 @@ function MapView({ toAccount, setBackHandler }) {
         .then(res => setAvatar(res.data))
         .catch(err => console.log('Fetch image error:', err));
     }
+    // getImage();
 
-    getImage();
+    setAvatar(`${API_URL}${SMALL_IMAGE_ENDPOINT}/${UserInfo.getContact()}`);
   }, [setAvatar]);
 
   function clearPickedCoordinate() {
