@@ -64,9 +64,7 @@ function MapView({ toAccount, setBackHandler }) {
   // Socket
   useEffect(() => {
     // initial data [some times it doesnot work don't know why]
-    // socket.on('SocketText.events.message', data =>
-    //   console.log('message:', data)
-    // );
+    // socket.on(SocketText.events.message, data => console.log('message:', data));
 
     // Request initial data
     socket.send(null, data => {
