@@ -180,9 +180,9 @@ function AccountView(props) {
                   let phoneNumber = '';
 
                   if (Platform.OS === 'android') {
-                    phoneNumber = 'tel:${' + accInfo.contact + '}';
+                    phoneNumber = `tel:${accInfo.contact}`;
                   } else {
-                    phoneNumber = 'telprompt:${' + accInfo.contact + '}';
+                    phoneNumber = `telprompt:${accInfo.contact}`;
                   }
 
                   Linking.openURL(phoneNumber);
