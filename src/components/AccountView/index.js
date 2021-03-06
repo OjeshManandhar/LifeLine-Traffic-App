@@ -60,6 +60,14 @@ function AccountView(props) {
 
             setAccInfo(response.data);
 
+            Axios.get(
+              `${API_URL}${
+                driverAcc ? DRIVER_IMAGE_ENDPOINT : TRAFFIC_IMAGE_ENDPOINT
+              }/${props.accountInfo.contact}?time=${new Date()}`
+            )
+              .then(response => setAccImage(response.data))
+              .catch(err => console.log('GET image error:', err));
+
             setError(false);
             setLoading(false);
           })
@@ -69,21 +77,18 @@ function AccountView(props) {
             setError(true);
             setLoading(false);
           });
-
-        setAccImage(
-          `${API_URL}${
-            driverAcc ? DRIVER_IMAGE_ENDPOINT : TRAFFIC_IMAGE_ENDPOINT
-          }/${props.accountInfo.contact}?&timestamp=${new Date()}`
-        );
       } else {
         const info = UserInfo.getInfo();
 
         setAccInfo(info);
-        setAccImage(
-          `${API_URL}${TRAFFIC_IMAGE_ENDPOINT}/${
+
+        Axios.get(
+          `${API_URL}${DRIVER_IMAGE_ENDPOINT}/${
             info.contact
-          }?&timestamp=${new Date()}`
-        );
+          }?time=${new Date()}`
+        )
+          .then(response => setAccImage(response.data))
+          .catch(err => console.log('GET image error:', err));
 
         setError(false);
         setLoading(false);
