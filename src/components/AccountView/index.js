@@ -83,7 +83,7 @@ function AccountView(props) {
         setAccInfo(info);
 
         Axios.get(
-          `${API_URL}${DRIVER_IMAGE_ENDPOINT}/${
+          `${API_URL}${TRAFFIC_IMAGE_ENDPOINT}/${
             info.contact
           }?time=${new Date()}`
         )

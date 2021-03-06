@@ -64,10 +64,7 @@ function MapView({ toAccount, setBackHandler }) {
   // Socket
   useEffect(() => {
     // initial data [some times it doesnot work don't know why]
-    // socket.on(SocketText.events.message, data => console.log('message:', data));
-
-    // Request initial data
-    socket.send(null, data => {
+    socket.on(SocketText.events.message, data => {
       console.log('socketData:', data);
 
       setDriverLocation(data['driver_gps']);
@@ -75,6 +72,16 @@ function MapView({ toAccount, setBackHandler }) {
       setTrafficLocation(data['traffic_gps']);
       setObstructionList(data['obstructions']);
     });
+
+    // Request initial data
+    // socket.send(null, data => {
+    //   console.log('socketData:', data);
+
+    //   setDriverLocation(data['driver_gps']);
+    //   setDriverRoutes(data['driver_routes']);
+    //   setTrafficLocation(data['traffic_gps']);
+    //   setObstructionList(data['obstructions']);
+    // });
 
     socket.on(SocketText.events.driverRoutes, data => setDriverRoutes(data));
     socket.on(SocketText.events.obstructions, data => setObstructionList(data));
