@@ -73,7 +73,6 @@ function Login({ navigation }) {
       })
       .catch(function (error) {
         console.log('Login err:', error, error.message);
-        console.dir(error);
 
         // clearFields();
         setIsLoggingIn(false);
