@@ -351,9 +351,9 @@ function Map({
 
       {obstructionList.length > 0 && renderObstruction()}
 
-      {driverLocation && renderDriverMarker()}
+      {driverLocation.length > 0 && renderDriverMarker()}
 
-      {trafficLocation && renderTrafficMarker()}
+      {trafficLocation.length > 0 && renderTrafficMarker()}
 
       {driverRoutes && parseDriverRoutes()}
     </MapboxGL.MapView>
